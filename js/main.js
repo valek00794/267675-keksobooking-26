@@ -21,5 +21,5 @@ function randomNumber(min, max, decimal) {
     return (min + Math.random() * (max - min)).toFixed(decimalOut);
   }
 }
-console.log( randomNumber(0, 1,0) );
+randomNumber(0, 1,0);
 

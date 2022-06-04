@@ -3,9 +3,9 @@ function getRandomNumber(min, max, decimal) {
   if (min>= 0 && max >=0 && decimal<20) {
     return (min + Math.random() * (max - min)).toFixed(decimal);
   }
-  if (!decimal || decimal===0){
+  if ((min>= 0 && max >=0) && !decimal || decimal===0){
     const rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   }
 }
-getRandomNumber(-1, 1,20);
+getRandomNumber(0, 1,10);

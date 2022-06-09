@@ -18,6 +18,10 @@ const OFFER_TITLES = [
   'Бунгало в джунглях',
   '6ти звездочный отель',
 ];
+const OFFER_RANGE_PRICE = {
+  min: 3000,
+  max: 10000,
+};
 const OFFER_TYPES = [
   'palace',
   'flat',
@@ -25,6 +29,14 @@ const OFFER_TYPES = [
   'bungalow',
   'hotel',
 ];
+const OFFER_COUNT_ROOMS = {
+  min: 1,
+  max: 5,
+};
+const OFFER_COUNT_GUESTS = {
+  min: 1,
+  max: 10,
+};
 const OFFER_CHECKIN_TIME = [
   '12:00',
   '13:00',
@@ -82,10 +94,10 @@ const createOfferObject = (count) => {
     offer: {
       title: getRandomArrayElement(OFFER_TITLES),
       address: `${LATITUDE},${LONGITUDE}`,
-      price: getRandomNumber(3000, 10000),
+      price: getRandomNumber(OFFER_RANGE_PRICE.min, OFFER_RANGE_PRICE.max),
       type: getRandomArrayElement(OFFER_TYPES),
-      rooms: getRandomNumber(1, 5),
-      guests: getRandomNumber(1, 10),
+      rooms: getRandomNumber(OFFER_COUNT_ROOMS.min, OFFER_COUNT_ROOMS.max),
+      guests: getRandomNumber(OFFER_COUNT_GUESTS.min, OFFER_COUNT_GUESTS.max),
       checkin: getRandomArrayElement(OFFER_CHECKIN_TIME),
       checkout: getRandomArrayElement(OFFER_CHECKOUT_TIME),
       features: getRandomElementsFromArray(OFFER_FEATURES),

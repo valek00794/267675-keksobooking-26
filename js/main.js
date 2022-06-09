@@ -11,31 +11,31 @@ const getRandomNumber = (min, max, decimal) => {
 };
 //Входные данные для создания массива объектов
 const COUNT_OBJECTS = 10;
-const TITLE = [
+const OFFER_TITLES = [
   'Дворец королей на возвышенности',
   'Апараменты в центре города',
   'Домик у моря',
   'Бунгало в джунглях',
   '6ти звездочный отель',
 ];
-const TYPE = [
+const OFFER_TYPES = [
   'palace',
   'flat',
   'house',
   'bungalow',
   'hotel',
 ];
-const CHECKIN = [
+const OFFER_CHECKIN_TIME = [
   '12:00',
   '13:00',
   '14:00',
 ];
-const CHECKOUT = [
+const OFFER_CHECKOUT_TIME = [
   '12:00',
   '13:00',
   '14:00',
 ];
-const FEATURES = [
+const OFFER_FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -43,14 +43,14 @@ const FEATURES = [
   'elevator',
   'conditioner',
 ];
-const DESCRIPTION = [
+const OFFER_DESCRIPTIONS = [
   'Дворец королей с прекрасным видом на окресности',
   'Апараменты в центре города вблизи с основными достопримечательностями',
   'Уютный домик у моря с чистейшим пляжем и тавернами',
   'Бунгало в непроходимых джунглях для уединения',
   '6ти звездочный отель ультра все включено',
 ];
-const PHOTOS = [
+const OFFER_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
@@ -58,9 +58,9 @@ const PHOTOS = [
 //Функция получения случайного элемента из массива
 const getRandomArrayElement = (elements) => {{return elements[getRandomNumber(0, elements.length - 1)];}};
 //Функция создания объекта автор с генерацией сылки аватара
-const createObjectAuthor  = (countObject) => {{return {avatar: `img/avatars/user${countObject.toString().padStart(2,'0')}.png`,};}};
+const createObjectAvatarAuthorLink  = (countObject) => {{return {avatar: `img/avatars/user${countObject.toString().padStart(2,'0')}.png`,};}};
 //Функция получения случайного массива из исходного массива
-const getArray = (features) => {
+const getRandomElementsFromArray = (features) => {
   const maxLength = features.length;
   const lengthOfArray = getRandomNumber(1, maxLength);
   const array = [];
@@ -74,27 +74,27 @@ const getArray = (features) => {
   return array;
 };
 //Функция создания оъекта с данными
-const createObject = (count) => {
-  const lat = getRandomNumber(35.65,35.7,5);
-  const lng = getRandomNumber(139.7,139.8,5);
+const createOfferObject = (count) => {
+  const LATITUDE = getRandomNumber(35.65,35.7,5);
+  const LONGITUDE = getRandomNumber(139.7,139.8,5);
   return {
-    author: createObjectAuthor(count),
+    author: createObjectAvatarAuthorLink(count),
     offer: {
-      title: getRandomArrayElement(TITLE),
-      address: `${lat},${lng}`,
+      title: getRandomArrayElement(OFFER_TITLES),
+      address: `${LATITUDE},${LONGITUDE}`,
       price: getRandomNumber(3000, 10000),
-      type: getRandomArrayElement(TYPE),
+      type: getRandomArrayElement(OFFER_TYPES),
       rooms: getRandomNumber(1, 5),
       guests: getRandomNumber(1, 10),
-      checkin: getRandomArrayElement(CHECKIN),
-      checkout: getRandomArrayElement(CHECKOUT),
-      features: getArray(FEATURES),
-      description: getRandomArrayElement(DESCRIPTION),
-      photos: getArray(PHOTOS),
+      checkin: getRandomArrayElement(OFFER_CHECKIN_TIME),
+      checkout: getRandomArrayElement(OFFER_CHECKOUT_TIME),
+      features: getRandomElementsFromArray(OFFER_FEATURES),
+      description: getRandomArrayElement(OFFER_DESCRIPTIONS),
+      photos: getRandomElementsFromArray(OFFER_PHOTOS),
     },
     location: {
-      iat: lat,
-      ing: lng,
+      iat: LATITUDE,
+      ing: LONGITUDE,
     },
   };
 };
@@ -102,7 +102,7 @@ const createObject = (count) => {
 const createObjectArray = (count) => {
   const arrayObject = [];
   for (let i = 1; i<= count; i++){
-    arrayObject.push(createObject(i));
+    arrayObject.push(createOfferObject(i));
   }
   return arrayObject;
 };

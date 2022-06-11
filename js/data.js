@@ -58,7 +58,7 @@ const OFFER_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
   //Функция создания объекта автор с генерацией сылки аватара
-  const createObjectAvatarAuthorLink  = (countObject) => {{return {avatar: `img/avatars/user${countObject.toString().padStart(2,'0')}.png`,};}};
+const createObjectAvatarAuthorLink  = (countObject) => {{return {avatar: `img/avatars/user${countObject.toString().padStart(2,'0')}.png`,};}};
 //Функция создания оъекта с данными
 const createOfferObject = (count) => {
   const LATITUDE = getRandomNumber(35.65,35.7,5);

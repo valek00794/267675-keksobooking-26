@@ -1,2 +1,4 @@
-import {doneArray} from './data.js';
-doneArray();
+//import {DATA_OUTPUT} from './data.js';
+//Временно закомметрировано т.к. експортируемые данные пока не используются
+
+

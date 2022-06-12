@@ -52,19 +52,26 @@ const OFFER_DESCRIPTIONS = [
   'Бунгало в непроходимых джунглях для уединения',
   '6ти звездочный отель ультра все включено',
 ];
-const OFFER_PHOTOS = [
+const OFFER_PHOTOS  = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
+const OFFER_COORDINATE_RANGE = {
+  LATITUDE: {min: 35.65, max: 35.7},
+  LONGITUDE: {min: 139.7, max: 139.8},
+  ACCURACY: 5,
+};
   //Функция создания объекта автор с генерацией сылки аватара
-const createObjectAvatarAuthorLink  = (countObject) => {{return {avatar: `img/avatars/user${countObject.toString().padStart(2,'0')}.png`,};}};
+const createAvatarAuthorLink  = (countObject) => {{return `img/avatars/user${countObject.toString().padStart(2,'0')}.png`;}};
 //Функция создания оъекта с данными
-const createOfferObject = (count) => {
-  const LATITUDE = getRandomNumber(35.65,35.7,5);
-  const LONGITUDE = getRandomNumber(139.7,139.8,5);
+const createOffer = (count) => {
+  const LATITUDE = getRandomNumber(OFFER_COORDINATE_RANGE.LATITUDE.min, OFFER_COORDINATE_RANGE.LATITUDE.max, OFFER_COORDINATE_RANGE.ACCURACY);
+  const LONGITUDE = getRandomNumber(OFFER_COORDINATE_RANGE.LONGITUDE.min, OFFER_COORDINATE_RANGE.LONGITUDE.max, OFFER_COORDINATE_RANGE.ACCURACY);
   return {
-    author: createObjectAvatarAuthorLink(count),
+    author: {
+      avatar: createAvatarAuthorLink(count),
+    },
     offer: {
       title: getRandomArrayElement(OFFER_TITLES),
       address: `${LATITUDE},${LONGITUDE}`,
@@ -84,13 +91,13 @@ const createOfferObject = (count) => {
     },
   };
 };
-//Функция создания массива объектов
-const createObjectArray = (count) => {
-  const arrayObject = [];
+//Функция создания массива данных
+const createData = (count) => {
+  const data = [];
   for (let i = 1; i<= count; i++){
-    arrayObject.push(createOfferObject(i));
+    data.push(createOffer(i));
   }
-  return arrayObject;
+  return data;
 };
-const doneArray = createObjectArray(COUNT_OBJECTS);
-export {doneArray};
+const DATA_OUTPUT = createData(COUNT_OBJECTS);
+export {DATA_OUTPUT};

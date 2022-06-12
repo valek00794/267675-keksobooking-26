@@ -62,7 +62,7 @@ const OFFER_COORDINATE_RANGE = {
   LONGITUDE: {min: 139.7, max: 139.8},
   ACCURACY: 5,
 };
-  //Функция создания объекта автор с генерацией сылки аватара
+  //Функция создания сылки аватара
 const createAvatarAuthorLink  = (countObject) => {{return `img/avatars/user${countObject.toString().padStart(2,'0')}.png`;}};
 //Функция создания оъекта с данными
 const createOffer = (count) => {

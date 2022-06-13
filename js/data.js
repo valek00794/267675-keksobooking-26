@@ -1,6 +1,6 @@
 import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray} from './util.js';
 //Входные данные для создания массива объектов
-const COUNT_OBJECTS = 10;
+const COUNT_OBJECTS = 1
 const OFFER_TITLES = [
   'Дворец королей на возвышенности',
   'Апараменты в центре города',
@@ -52,7 +52,7 @@ const OFFER_DESCRIPTIONS = [
   'Бунгало в непроходимых джунглях для уединения',
   '6ти звездочный отель ультра все включено',
 ];
-const OFFER_PHOTOS  = [
+const OFFER_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
@@ -92,12 +92,12 @@ const createOffer = (count) => {
   };
 };
 //Функция создания массива данных
-const createData = (count) => {
+const createOfferArray = (count) => {
   const data = [];
   for (let i = 1; i<= count; i++){
     data.push(createOffer(i));
   }
   return data;
 };
-const DATA_OUTPUT = createData(COUNT_OBJECTS);
+const DATA_OUTPUT = createOfferArray(COUNT_OBJECTS);
 export {DATA_OUTPUT};

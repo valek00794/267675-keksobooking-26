@@ -1,6 +1,6 @@
-import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray} from './util.js';
+import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys} from './util.js';
 //Входные данные для создания массива объектов
-const COUNT_OBJECTS = 1
+const COUNT_OBJECTS = 1;
 const OFFER_TITLES = [
   'Дворец королей на возвышенности',
   'Апараменты в центре города',
@@ -12,13 +12,13 @@ const OFFER_RANGE_PRICE = {
   min: 3000,
   max: 10000,
 };
-const OFFER_TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
+const types = {
+  palace:'Дворец',
+  flat:'Квартира',
+  house:'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 const OFFER_COUNT_ROOMS = {
   min: 1,
   max: 5,
@@ -76,7 +76,7 @@ const createOffer = (count) => {
       title: getRandomArrayElement(OFFER_TITLES),
       address: `${LATITUDE},${LONGITUDE}`,
       price: getRandomNumber(OFFER_RANGE_PRICE.min, OFFER_RANGE_PRICE.max),
-      type: getRandomArrayElement(OFFER_TYPES),
+      type: getRandomArrayElement(getArrayOfObjectKeys(types)),
       rooms: getRandomNumber(OFFER_COUNT_ROOMS.min, OFFER_COUNT_ROOMS.max),
       guests: getRandomNumber(OFFER_COUNT_GUESTS.min, OFFER_COUNT_GUESTS.max),
       checkin: getRandomArrayElement(OFFER_CHECKIN_TIME),
@@ -100,4 +100,4 @@ const createOfferArray = (count) => {
   return data;
 };
 const DATA_OUTPUT = createOfferArray(COUNT_OBJECTS);
-export {DATA_OUTPUT};
+export {DATA_OUTPUT,types};

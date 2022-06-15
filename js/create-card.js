@@ -27,16 +27,16 @@ const card = function () {
     if (data.offer.description) { element.querySelector('.popup__description').textContent = data.offer.description; } else { element.querySelector('.popup__description').remove(); }
     if (data.offer.photos !== []) {
       const cardPhotos = data.offer.photos;
-      const photoOut = document.createDocumentFragment();
+      const fragment = document.createDocumentFragment();
       const fragmentTemplate = element.querySelector('.popup__photos').querySelector('.popup__photo');
       element.querySelector('.popup__photos').innerHTML = '';
-      const templateImg = element.querySelector('.popup__photos');
+      const imgList = element.querySelector('.popup__photos');
       for (let i = 0; i < cardPhotos.length; i++) {
-        const fragment = fragmentTemplate.cloneNode(true);
-        fragment.src = cardPhotos[i];
-        photoOut.append(fragment);
+        const imgElement = fragmentTemplate.cloneNode(true);
+        imgElement.src = cardPhotos[i];
+        fragment.append(imgElement);
       }
-      templateImg.append(photoOut);
+      imgList.append(fragment);
     }
     else {
       element.querySelector('.popup__photos').remove();

@@ -41,7 +41,7 @@ const card = function () {
       element.querySelector('.popup__text--time').remove();
     }
     const cardFetures = data.offer.features;
-    if (cardFetures.length) {
+    if (Array.isArray(cardFetures) && cardFetures.length) {
       const modifiers = cardFetures.map((cardFeature) => `popup__feature--${cardFeature}`);
       const featuresList = element.querySelector('.popup__features').querySelectorAll('li');
       featuresList.forEach((featuresListItem) => {
@@ -61,7 +61,7 @@ const card = function () {
       element.querySelector('.popup__description').remove();
     }
     const cardPhotos = data.offer.photos;
-    if (cardPhotos.length) {
+    if (Array.isArray(cardPhotos) && cardPhotos.length) {
       const fragment = document.createDocumentFragment();
       const fragmentTemplate = element.querySelector('.popup__photos').querySelector('.popup__photo');
       element.querySelector('.popup__photos').innerHTML = '';

@@ -25,6 +25,7 @@ const getRandomElementsFromArray = (features) => {
   }
   return array;
 };
+//Функция получения массива из ключей объекта
 function getArrayOfObjectKeys(types) {
   const array = [];
   for (const type in types) {

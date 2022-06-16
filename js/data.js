@@ -1,6 +1,6 @@
-import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray} from './util.js';
+import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys} from './util.js';
 //Входные данные для создания массива объектов
-const COUNT_OBJECTS = 10;
+const COUNT_OBJECTS = 1;
 const OFFER_TITLES = [
   'Дворец королей на возвышенности',
   'Апараменты в центре города',
@@ -12,13 +12,13 @@ const OFFER_RANGE_PRICE = {
   min: 3000,
   max: 10000,
 };
-const OFFER_TYPES = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel',
-];
+const types = {
+  palace:'Дворец',
+  flat:'Квартира',
+  house:'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 const OFFER_COUNT_ROOMS = {
   min: 1,
   max: 5,
@@ -52,7 +52,7 @@ const OFFER_DESCRIPTIONS = [
   'Бунгало в непроходимых джунглях для уединения',
   '6ти звездочный отель ультра все включено',
 ];
-const OFFER_PHOTOS  = [
+const OFFER_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
@@ -76,7 +76,7 @@ const createOffer = (count) => {
       title: getRandomArrayElement(OFFER_TITLES),
       address: `${LATITUDE},${LONGITUDE}`,
       price: getRandomNumber(OFFER_RANGE_PRICE.min, OFFER_RANGE_PRICE.max),
-      type: getRandomArrayElement(OFFER_TYPES),
+      type: getRandomArrayElement(getArrayOfObjectKeys(types)),
       rooms: getRandomNumber(OFFER_COUNT_ROOMS.min, OFFER_COUNT_ROOMS.max),
       guests: getRandomNumber(OFFER_COUNT_GUESTS.min, OFFER_COUNT_GUESTS.max),
       checkin: getRandomArrayElement(OFFER_CHECKIN_TIME),
@@ -92,12 +92,12 @@ const createOffer = (count) => {
   };
 };
 //Функция создания массива данных
-const createData = (count) => {
+const createOfferArray = (count) => {
   const data = [];
   for (let i = 1; i<= count; i++){
     data.push(createOffer(i));
   }
   return data;
 };
-const DATA_OUTPUT = createData(COUNT_OBJECTS);
-export {DATA_OUTPUT};
+const DATA_OUTPUT = createOfferArray(COUNT_OBJECTS);
+export {DATA_OUTPUT,types};

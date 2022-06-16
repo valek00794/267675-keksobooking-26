@@ -25,4 +25,12 @@ const getRandomElementsFromArray = (features) => {
   }
   return array;
 };
-export {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray};
+//Функция получения массива из ключей объекта
+function getArrayOfObjectKeys(types) {
+  const array = [];
+  for (const type in types) {
+    array.push(type);
+  }
+  return array;
+}
+export {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys};

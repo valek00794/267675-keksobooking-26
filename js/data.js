@@ -1,4 +1,4 @@
-import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys} from './util.js';
+import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys} from './utils.js';
 //Входные данные для создания массива объектов
 const COUNT_OBJECTS = 1;
 const OFFER_TITLES = [

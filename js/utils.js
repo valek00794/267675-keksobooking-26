@@ -1,5 +1,5 @@
 //Функция, возвращающая случайное целое число из переданного диапазона включительно (Источник https://learn.javascript.ru/number)
-const getRandomNumber = (min, max, decimal) => {
+function getRandomNumber(min, max, decimal) {
   if (min>= 0 && max >=0 && decimal<20) {
     return (min + Math.random() * (max - min)).toFixed(decimal);
   }
@@ -8,11 +8,11 @@ const getRandomNumber = (min, max, decimal) => {
     return Math.floor(rand);
   }
   throw new RangeError('Входные данные вне диапазона');
-};
-  //Функция получения случайного элемента из массива
-const getRandomArrayElement = (elements) => {{return elements[getRandomNumber(0, elements.length - 1)];}};
+}
+//Функция получения случайного элемента из массива
+function getRandomArrayElement (elements) {{return elements[getRandomNumber(0, elements.length - 1)];}}
 //Функция получения случайного массива из исходного массива
-const getRandomElementsFromArray = (features) => {
+function getRandomElementsFromArray (features) {
   const maxLength = features.length;
   const lengthOfArray = getRandomNumber(1, maxLength);
   const array = [];
@@ -33,4 +33,11 @@ function getArrayOfObjectKeys(types) {
   }
   return array;
 }
-export {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys};
+//Функция блокировки или разблокировки всех элементов в форме
+function disOrEnableFormElements (form, directive){
+  const allElements = form.elements;
+  for (let i = 0, l = allElements.length; i < l; i++) {
+    allElements[i].disabled=directive;
+  }
+}
+export {getRandomArrayElement, getRandomNumber, getRandomElementsFromArray, getArrayOfObjectKeys, disOrEnableFormElements};

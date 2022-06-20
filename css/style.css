@@ -1035,3 +1035,10 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.ad-form__error-text {
+  top: 34px;
+  left: 20px;
+  color: #6d0505;
+  text-align: left;
+}

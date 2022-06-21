@@ -62,6 +62,8 @@ pristine.addValidator(
 );
 form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
-  if (!isValid) {evt.preventDefault();}
+  if (!isValid) {
+    evt.preventDefault();
+  }
 });
 export { pageToNotActive, pageToActive };

@@ -36,8 +36,6 @@ const minPricePerType = {
   house: 5000,
   palace: 10000
 };
-const сonditionExceptionsForGuests = '0';
-const сonditionExceptionsForRooms = '100';
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -73,6 +71,8 @@ pristine.addValidator(
   validatePriceMessage,
 );
 function validateRoomsGuests () {
+  const сonditionExceptionsForGuests = '0';
+  const сonditionExceptionsForRooms = '100';
   return (guestsField.value === сonditionExceptionsForGuests && roomField.value === сonditionExceptionsForRooms) ||
   (guestsField.value <= roomField.value && roomField.value !== сonditionExceptionsForRooms && guestsField.value !== сonditionExceptionsForGuests);
 

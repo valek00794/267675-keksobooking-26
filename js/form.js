@@ -28,8 +28,8 @@ const TITLE_LENGTH_RANGE = {
   min: 30,
   max: 100,
 };
-const maxPriceForNight = 100000;
-const minPricePerType = {
+const MAX_PRICE_FOR_NIGHT = 100000;
+const MIN_PRICE_PER_TYPE = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -50,20 +50,20 @@ pristine.addValidator(
   validateTitle,
   `от ${TITLE_LENGTH_RANGE.min} до ${TITLE_LENGTH_RANGE.max} символов`
 );
-let minPriceForNight = minPricePerType[typeField.value];
+let minPriceForNight = MIN_PRICE_PER_TYPE[typeField.value];
 typeField.addEventListener('change', () => {
-  for (let key in minPricePerType) {
+  for (const key in MIN_PRICE_PER_TYPE) {
     if (typeField.value === key) {
-      minPriceForNight = minPricePerType[key];
+      minPriceForNight = MIN_PRICE_PER_TYPE[key];
     }
   }
   pristine.validate();
 });
 function validatePrice (value) {
-  return  value <= maxPriceForNight && value >=minPriceForNight;
+  return  value <= MAX_PRICE_FOR_NIGHT && value >=minPriceForNight;
 }
 function validatePriceMessage () {
-  return  `Мин. цена ${minPriceForNight} руб. и не более ${maxPriceForNight} руб.`;
+  return  `Мин. цена ${minPriceForNight} руб. и не более ${MAX_PRICE_FOR_NIGHT} руб.`;
 }
 pristine.addValidator(
   priceField,
@@ -71,10 +71,10 @@ pristine.addValidator(
   validatePriceMessage,
 );
 function validateRoomsGuests () {
-  const сonditionExceptionsForGuests = '0';
-  const сonditionExceptionsForRooms = '100';
-  return (guestsField.value === сonditionExceptionsForGuests && roomField.value === сonditionExceptionsForRooms) ||
-  (guestsField.value <= roomField.value && roomField.value !== сonditionExceptionsForRooms && guestsField.value !== сonditionExceptionsForGuests);
+  const СONDITION_EXCEPTION_FOR_GUESTS = '0';
+  const СONDITION_EXCEPTION_FOR_ROOMS = '100';
+  return (guestsField.value === СONDITION_EXCEPTION_FOR_GUESTS && roomField.value === СONDITION_EXCEPTION_FOR_ROOMS) ||
+  (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
 
 }
 pristine.addValidator(

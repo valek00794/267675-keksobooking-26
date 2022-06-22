@@ -29,6 +29,13 @@ const TITLE_LENGTH_RANGE = {
   max: 100,
 };
 const maxPriceForNight = 100000;
+const minPricePerType = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000
+};
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -43,7 +50,7 @@ pristine.addValidator(
   validateTitle,
   `от ${TITLE_LENGTH_RANGE.min} до ${TITLE_LENGTH_RANGE.max} символов`
 );
-let minPriceForNight = Number(priceField.placeholder);
+let minPriceForNight = minPricePerType[typeField.value];
 typeField.addEventListener('change', () => {
   if (typeField.value === 'bungalow') {
     minPriceForNight = 0;
@@ -67,6 +74,7 @@ typeField.addEventListener('change', () => {
   }
   pristine.validate();
 });
+
 function validatePrice (value) {
   return  value <= maxPriceForNight && value >=minPriceForNight;
 }

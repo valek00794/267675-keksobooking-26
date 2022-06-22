@@ -2,6 +2,13 @@ import { disOrEnableFormElements } from './utils.js';
 const adForm = document.querySelector('.ad-form');
 const mapForm = document.querySelector('.map__filters');
 const divSlider = document.querySelector('.ad-form__slider');
+const roomField = adForm.querySelector('#room_number');
+const guestsField = adForm.querySelector('#capacity');
+const priceField = adForm.querySelector('#price');
+const typeField = adForm.querySelector('#type');
+const timeInField = adForm.querySelector('#timein');
+const timeОutField = adForm.querySelector('#timeout');
+const titleField = adForm.querySelector('#title');
 function pageToNotActive() {
   adForm.classList.add('ad-form--disabled');
   mapForm.classList.add('map__filters--disabled');
@@ -9,7 +16,6 @@ function pageToNotActive() {
   divSlider.style.pointerEvents = 'none';
   disOrEnableFormElements(adForm, true);
   disOrEnableFormElements(mapForm, true);
-
 }
 function pageToActive() {
   adForm.classList.remove('ad-form--disabled');
@@ -18,17 +24,9 @@ function pageToActive() {
   disOrEnableFormElements(adForm, false);
   disOrEnableFormElements(mapForm, false);
 }
-
 const TITLE_LENGTH_RANGE = {
   min: 30,
   max: 100,
-};
-const minPricePerType = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000
 };
 const maxPriceForNight = 100000;
 const pristine = new Pristine(adForm, {
@@ -36,83 +34,75 @@ const pristine = new Pristine(adForm, {
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error-text',
 });
-const titleField = adForm.querySelector('#title');
-const priceField = adForm.querySelector('#price');
 function validateTitle (value) {
   return value.length >= TITLE_LENGTH_RANGE.min && value.length <= TITLE_LENGTH_RANGE.max;
 }
 pristine.addValidator();
 pristine.addValidator(
-  adForm.querySelector('#title'),
+  titleField,
   validateTitle,
   `от ${TITLE_LENGTH_RANGE.min} до ${TITLE_LENGTH_RANGE.max} символов`
 );
-
-const typeField = adForm.querySelector('#type');
-//let priceMinValue = minPricePerType[typeField.value];
-let priceMinValue = Number(priceField.placeholder);
-console.log(priceMinValue);
+let minPriceForNight = Number(priceField.placeholder);
 typeField.addEventListener('change', () => {
   if (typeField.value === 'bungalow') {
-    priceMinValue = 0;
-    priceField.placeholder=priceMinValue;
+    minPriceForNight = 0;
+    priceField.placeholder=minPriceForNight;
   }
   if (typeField.value === 'flat') {
-    priceMinValue = 1000;
-    priceField.placeholder=priceMinValue;
+    minPriceForNight = 1000;
+    priceField.placeholder=minPriceForNight;
   }
   if (typeField.value === 'hotel') {
-    priceMinValue = 3000;
-    priceField.placeholder=priceMinValue;
+    minPriceForNight = 3000;
+    priceField.placeholder=minPriceForNight;
   }
   if (typeField.value === 'house') {
-    priceMinValue = 5000;
-    priceField.placeholder=priceMinValue;
+    minPriceForNight = 5000;
+    priceField.placeholder=minPriceForNight;
   }
   if (typeField.value === 'palace') {
-    priceMinValue = 10000;
-    priceField.placeholder=priceMinValue;
+    minPriceForNight = 10000;
+    priceField.placeholder=minPriceForNight;
   }
   pristine.validate();
 });
 function validatePrice (value) {
-  //  const priceFieldSelected = form.querySelector('[name="type"]:selected');
-  // return  value <= 100000 && value >=minPricePerType.priceFieldSelected.value;
-  return  value <= maxPriceForNight && value >=priceMinValue;
+  return  value <= maxPriceForNight && value >=minPriceForNight;
+}
+function validatePriceMessage () {
+  return  `Мин. цена ${minPriceForNight} руб. и не более ${maxPriceForNight} руб.`;
 }
 pristine.addValidator(
   priceField,
   validatePrice,
-  `Мин. цена ${priceMinValue} руб. и не более ${maxPriceForNight} руб.`
+  validatePriceMessage,
 );
-
 function validateRoomsGuests () {
-  const roomFields = adForm.querySelector('#room_number');
-  const guestsFields = adForm.querySelector('#capacity');
-  return (guestsFields.value === '0' && roomFields.value === '100') ||
-  (guestsFields.value <= roomFields.value && roomFields.value !== '100' && guestsFields.value !== '0');
+  return (guestsField.value === '0' && roomField.value === '100') ||
+  (guestsField.value <= roomField.value && roomField.value !== '100' && guestsField.value !== '0');
 }
 pristine.addValidator(
-  adForm.querySelector('#capacity'),
+  guestsField,
   validateRoomsGuests,
   'Гостям тесно'
 );
-const timeinField = adForm.querySelector('#timein');
-const timeoutField = adForm.querySelector('#timeout');
-timeinField.addEventListener('change', () => {
-  timeoutField.value =timeinField.value;
+roomField.addEventListener('change', () => {
   pristine.validate();
 });
-timeoutField.addEventListener('change', () => {
-  timeinField.value =timeoutField.value;
+timeInField.addEventListener('change', () => {
+  timeОutField.value =timeInField.value;
   pristine.validate();
 });
-
+timeОutField.addEventListener('change', () => {
+  timeInField.value =timeОutField.value;
+  pristine.validate();
+});
 function validateChekinOut () {
-  return  timeinField.value === timeoutField.value;
+  return  timeInField.value === timeОutField.value;
 }
 pristine.addValidator(
-  timeoutField,
+  timeОutField,
   validateChekinOut,
   'Время заезда и выезда должно быть одинаково'
 );

@@ -52,29 +52,13 @@ pristine.addValidator(
 );
 let minPriceForNight = minPricePerType[typeField.value];
 typeField.addEventListener('change', () => {
-  if (typeField.value === 'bungalow') {
-    minPriceForNight = 0;
-    priceField.placeholder=minPriceForNight;
-  }
-  if (typeField.value === 'flat') {
-    minPriceForNight = 1000;
-    priceField.placeholder=minPriceForNight;
-  }
-  if (typeField.value === 'hotel') {
-    minPriceForNight = 3000;
-    priceField.placeholder=minPriceForNight;
-  }
-  if (typeField.value === 'house') {
-    minPriceForNight = 5000;
-    priceField.placeholder=minPriceForNight;
-  }
-  if (typeField.value === 'palace') {
-    minPriceForNight = 10000;
-    priceField.placeholder=minPriceForNight;
+  for (let key in minPricePerType) {
+    if (typeField.value === key) {
+      minPriceForNight = minPricePerType[key];
+    }
   }
   pristine.validate();
 });
-
 function validatePrice (value) {
   return  value <= maxPriceForNight && value >=minPriceForNight;
 }

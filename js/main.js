@@ -1,7 +1,8 @@
 import {card} from './create-card.js';
-import {pageToNotActive, pageToActive} from './form.js';
+import {pageToNotActive} from './form.js';
+import {mapDraw} from './map.js';
 document.addEventListener('DOMContentLoaded', () => {
   pageToNotActive();
-  pageToActive();
+  mapDraw();
 });
-card();
+//card();

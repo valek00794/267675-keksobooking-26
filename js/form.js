@@ -37,10 +37,10 @@ const MIN_PRICE_PER_TYPE = {
   palace: 10000
 };
 const SLIDER_RANGE = {
-  min: MIN_PRICE_PER_TYPE[typeField.value],
+  min: 0,
   max: MAX_PRICE_FOR_NIGHT,
-  start: MIN_PRICE_PER_TYPE[typeField.value],
-  step: MIN_PRICE_PER_TYPE[typeField.value]*0.01,
+  start: 0,
+  step: 1,
 };
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -84,25 +84,6 @@ typeField.addEventListener('change', () => {
     if (typeField.value === key) {
       priceField.placeholder = MIN_PRICE_PER_TYPE[key];
       minPriceForNight = MIN_PRICE_PER_TYPE[key];
-      if (minPriceForNight === 0) {
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: minPriceForNight,
-            max: MAX_PRICE_FOR_NIGHT
-          },
-          start:  minPriceForNight,
-          step: minPriceForNight*0.01+1
-        });}
-      else {
-        sliderElement.noUiSlider.updateOptions({
-          range: {
-            min: minPriceForNight,
-            max: MAX_PRICE_FOR_NIGHT
-          },
-          start:  minPriceForNight,
-          step: minPriceForNight*0.01
-        });
-      }
     }
   }
   pristine.validate();
@@ -123,7 +104,6 @@ function validateRoomsGuests () {
   const СONDITION_EXCEPTION_FOR_ROOMS = '100';
   return (guestsField.value === СONDITION_EXCEPTION_FOR_GUESTS && roomField.value === СONDITION_EXCEPTION_FOR_ROOMS) ||
   (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
-
 }
 pristine.addValidator(
   guestsField,

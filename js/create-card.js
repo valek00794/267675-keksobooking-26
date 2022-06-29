@@ -1,7 +1,7 @@
 import { DATA_OUTPUT, types } from './data.js';
 const mapCanvas = document.querySelector('#map-canvas');
-const cardTemplate = document.querySelector('#card').content;
 const card = function () {
+  const cardTemplate = document.querySelector('#card').content;
   DATA_OUTPUT.forEach((data) => {
     const element = cardTemplate.cloneNode(true);
     if (data.offer.title) {

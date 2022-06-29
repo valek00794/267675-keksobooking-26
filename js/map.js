@@ -1,6 +1,6 @@
 import { pageToActive } from './form.js';
-import { DATA_OUTPUT, types } from './data.js';
-console.log(DATA_OUTPUT);
+import { DATA_OUTPUT } from './data.js';
+import {card} from './create-card.js';
 function getTokyoCenterCoordinate() {
   return {
     lat: 35.6550,
@@ -25,10 +25,10 @@ function mapDraw() {
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
-  const anotherMackerIcon = L.icon({
+  const anotherMarkerIcon = L.icon({
     iconUrl: './img/pin.svg',
     iconSize: [40, 40],
-    iconAnchor: [26, 40],
+    iconAnchor: [20, 20],
   });
   const mainMarker = L.marker(
     getTokyoCenterCoordinate(),
@@ -37,18 +37,30 @@ function mapDraw() {
       icon: mainMarkerIcon,
     },
   );
-  const anotherMarker = L.marker(
-    getTokyoCenterCoordinate(),
-    {
-      icon: anotherMackerIcon,
-    }
-);
+  const markerGroup = L.layerGroup().addTo(map);
+  const createMarker = (point) => {
+    const anotherMarker = L.marker(
+      {
+        lat: point.location.iat,
+        lng: point.location.ing,
+      },
+      {
+        icon: anotherMarkerIcon,
+      },
+    );
+    anotherMarker
+      .addTo(markerGroup)
+      .bindPopup(card(point));
+    return anotherMarker;
+  };
   mainMarker.addTo(map);
-  anotherMarker.addTo(map);
   mainMarker.on('moveend', (evt) => {
     const coordinates = evt.target.getLatLng();
     const addressField = document.querySelector('#address');
     addressField.value=`${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
+  });
+  DATA_OUTPUT.forEach((point) => {
+    createMarker(point);
   });
 }
 

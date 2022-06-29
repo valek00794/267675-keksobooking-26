@@ -1,8 +1,6 @@
 import { types } from './data.js';
-//const mapCanvas = document.querySelector('#map-canvas');
 function card(data) {
-  const cardTemplate = document.querySelector('#card').content;
-  //DATA_OUTPUT.forEach((data) => {
+  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const element = cardTemplate.cloneNode(true);
   if (data.offer.title) {
     element.querySelector('.popup__title').textContent = data.offer.title;
@@ -82,7 +80,6 @@ function card(data) {
   else {
     element.querySelector('.popup__avatar').remove();
   }
-  //});
   return element;
 }
 export { card };

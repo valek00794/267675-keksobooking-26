@@ -1,19 +1,16 @@
 import { pageToActive } from './form.js';
 import { DATA_OUTPUT } from './data.js';
 import {card} from './create-card.js';
-function getTokyoCenterCoordinate() {
-  return {
-    lat: 35.6550,
-    lng: 139.75,
-  };
-}
-
+const TOKYO_CENTER_COOTDINATE = {
+  lat: 35.6550,
+  lng: 139.75,
+};
 function mapDraw() {
   const map = L.map('map-canvas')
     .on('load', () => {
       pageToActive();
     })
-    .setView(getTokyoCenterCoordinate(), 10);
+    .setView(TOKYO_CENTER_COOTDINATE, 10);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -31,7 +28,7 @@ function mapDraw() {
     iconAnchor: [20, 20],
   });
   const mainMarker = L.marker(
-    getTokyoCenterCoordinate(),
+    TOKYO_CENTER_COOTDINATE,
     {
       draggable: true,
       icon: mainMarkerIcon,

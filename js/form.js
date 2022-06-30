@@ -36,10 +36,38 @@ const MIN_PRICE_PER_TYPE = {
   house: 5000,
   palace: 10000
 };
+const SLIDER_RANGE = {
+  min: 0,
+  max: MAX_PRICE_FOR_NIGHT,
+  start: 0,
+  step: 1,
+};
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error-text',
+});
+const sliderElement = document.querySelector('.ad-form__slider');
+noUiSlider.create(sliderElement, {
+  range: {
+    min: SLIDER_RANGE.min,
+    max: SLIDER_RANGE.max,
+  },
+  start: SLIDER_RANGE.start,
+  step: SLIDER_RANGE.step,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+sliderElement.noUiSlider.on('update', () => {
+  priceField.value = sliderElement.noUiSlider.get();
+  pristine.validate();
 });
 function validateTitle (value) {
   return value.length >= TITLE_LENGTH_RANGE.min && value.length <= TITLE_LENGTH_RANGE.max;
@@ -54,6 +82,7 @@ let minPriceForNight = MIN_PRICE_PER_TYPE[typeField.value];
 typeField.addEventListener('change', () => {
   for (const key in MIN_PRICE_PER_TYPE) {
     if (typeField.value === key) {
+      priceField.placeholder = MIN_PRICE_PER_TYPE[key];
       minPriceForNight = MIN_PRICE_PER_TYPE[key];
     }
   }
@@ -75,7 +104,6 @@ function validateRoomsGuests () {
   const СONDITION_EXCEPTION_FOR_ROOMS = '100';
   return (guestsField.value === СONDITION_EXCEPTION_FOR_GUESTS && roomField.value === СONDITION_EXCEPTION_FOR_ROOMS) ||
   (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
-
 }
 pristine.addValidator(
   guestsField,

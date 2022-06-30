@@ -1,6 +1,6 @@
 import {getRandomArrayElement,getRandomNumber,getRandomElementsFromArray,getArrayOfObjectKeys} from './utils.js';
 //Входные данные для создания массива объектов
-const COUNT_OBJECTS = 1;
+const COUNT_OBJECTS = 10;
 const OFFER_TITLES = [
   'Дворец королей на возвышенности',
   'Апараменты в центре города',

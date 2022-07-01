@@ -1,10 +1,13 @@
 import { pageToActive } from './form.js';
-import { DATA_OUTPUT } from './data.js';
-import {card} from './create-card.js';
+import { getData } from './api.js';
+import { DATA_OUTPUT, COUNT_OBJECTS } from './data.js';
+import { getCard } from './create-card.js';
 const TOKYO_CENTER_COOTDINATE = {
   lat: 35.6550,
   lng: 139.75,
 };
+getData(console.log);
+console.log(DATA_OUTPUT);
 function mapDraw() {
   const map = L.map('map-canvas')
     .on('load', () => {
@@ -47,18 +50,20 @@ function mapDraw() {
     );
     anotherMarker
       .addTo(markerGroup)
-      .bindPopup(card(point));
+      .bindPopup(getCard(point));
     return anotherMarker;
   };
   mainMarker.addTo(map);
   mainMarker.on('moveend', (evt) => {
     const coordinates = evt.target.getLatLng();
     const addressField = document.querySelector('#address');
-    addressField.value=`${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
+    addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
-  DATA_OUTPUT.forEach((point) => {
+
+
+  /*DATA_OUTPUT.forEach((point) => {
     createMarker(point);
-  });
+  });*/
 }
 
 export { mapDraw };

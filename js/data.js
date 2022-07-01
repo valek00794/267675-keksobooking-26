@@ -100,4 +100,4 @@ const createOfferArray = (count) => {
   return data;
 };
 const DATA_OUTPUT = createOfferArray(COUNT_OBJECTS);
-export {DATA_OUTPUT,types};
+export {DATA_OUTPUT,types,COUNT_OBJECTS};

@@ -1,5 +1,5 @@
 import { types } from './data.js';
-function card(data) {
+function getCard(data) {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const element = cardTemplate.cloneNode(true);
   if (data.offer.title) {
@@ -38,6 +38,7 @@ function card(data) {
   else {
     element.querySelector('.popup__text--time').remove();
   }
+
   const cardFetures = data.offer.features;
   if (Array.isArray(cardFetures) && cardFetures.length) {
     const modifiers = cardFetures.map((cardFeature) => `popup__feature--${cardFeature}`);
@@ -82,4 +83,4 @@ function card(data) {
   }
   return element;
 }
-export { card };
+export { getCard };

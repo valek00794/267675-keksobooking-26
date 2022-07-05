@@ -1,4 +1,5 @@
-import { disOrEnableFormElements } from './utils.js';
+import { disOrEnableFormElements, showAlert } from './utils.js';
+import { sendData } from './api.js';
 const adForm = document.querySelector('.ad-form');
 const mapForm = document.querySelector('.map__filters');
 const divSlider = document.querySelector('.ad-form__slider');
@@ -25,7 +26,7 @@ function pageToActive() {
   disOrEnableFormElements(mapForm, false);
 }
 const TITLE_LENGTH_RANGE = {
-  min: 30,
+  min: 0,
   max: 100,
 };
 const MAX_PRICE_FOR_NIGHT = 100000;
@@ -69,7 +70,7 @@ sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
   pristine.validate();
 });
-function validateTitle (value) {
+function validateTitle(value) {
   return value.length >= TITLE_LENGTH_RANGE.min && value.length <= TITLE_LENGTH_RANGE.max;
 }
 pristine.addValidator();
@@ -88,22 +89,22 @@ typeField.addEventListener('change', () => {
   }
   pristine.validate();
 });
-function validatePrice (value) {
-  return  value <= MAX_PRICE_FOR_NIGHT && value >=minPriceForNight;
+function validatePrice(value) {
+  return value <= MAX_PRICE_FOR_NIGHT && value >= minPriceForNight;
 }
-function validatePriceMessage () {
-  return  `Мин. цена ${minPriceForNight} руб. и не более ${MAX_PRICE_FOR_NIGHT} руб.`;
+function validatePriceMessage() {
+  return `Мин. цена ${minPriceForNight} руб. и не более ${MAX_PRICE_FOR_NIGHT} руб.`;
 }
 pristine.addValidator(
   priceField,
   validatePrice,
   validatePriceMessage,
 );
-function validateRoomsGuests () {
+function validateRoomsGuests() {
   const СONDITION_EXCEPTION_FOR_GUESTS = '0';
   const СONDITION_EXCEPTION_FOR_ROOMS = '100';
   return (guestsField.value === СONDITION_EXCEPTION_FOR_GUESTS && roomField.value === СONDITION_EXCEPTION_FOR_ROOMS) ||
-  (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
+    (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
 }
 pristine.addValidator(
   guestsField,
@@ -114,25 +115,47 @@ roomField.addEventListener('change', () => {
   pristine.validate();
 });
 timeInField.addEventListener('change', () => {
-  timeОutField.value =timeInField.value;
+  timeОutField.value = timeInField.value;
   pristine.validate();
 });
 timeОutField.addEventListener('change', () => {
-  timeInField.value =timeОutField.value;
+  timeInField.value = timeОutField.value;
   pristine.validate();
 });
-function validateChekinOut () {
-  return  timeInField.value === timeОutField.value;
+function validateChekinOut() {
+  return timeInField.value === timeОutField.value;
 }
 pristine.addValidator(
   timeОutField,
   validateChekinOut,
   'Время заезда и выезда должно быть одинаково'
 );
+const submitButton = adForm.querySelector('.ad-form__submit');
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
 adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
+  if (isValid) {
+    blockSubmitButton();
+    sendData(
+      () => {
+        unblockSubmitButton();
+      },
+      () => {
+        showAlert('Не удалось отправить форму. Попробуйте ещё раз3');
+        unblockSubmitButton();
+      },
+      new FormData(evt.target),
+    );
   }
 });
+
 export { pageToNotActive, pageToActive };

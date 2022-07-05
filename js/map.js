@@ -33,6 +33,8 @@ function mapDraw() {
       draggable: true,
       icon: mainMarkerIcon,
     },
+    document.querySelector('#address').value=`${TOKYO_CENTER_COOTDINATE.lat.toFixed(5)},${TOKYO_CENTER_COOTDINATE.lng.toFixed(5)}`,
+    document.querySelector('#title').value=`${TOKYO_CENTER_COOTDINATE.lat.toFixed(5)},${TOKYO_CENTER_COOTDINATE.lng.toFixed(5)} ${TOKYO_CENTER_COOTDINATE.lat.toFixed(5)},${TOKYO_CENTER_COOTDINATE.lng.toFixed(5)}`
   );
   const markerGroup = L.layerGroup().addTo(map);
   const createMarker = (point) => {

@@ -1,19 +1,31 @@
 import { pageToActive } from './form.js';
 import { getData } from './api.js';
-import { DATA_OUTPUT, COUNT_OBJECTS } from './data.js';
+import { onError } from './utils.js';
 import { getCard } from './create-card.js';
+import { disOrEnableFormElements } from './utils.js';
+const COUNT_VIEW_OBJECTS = 10;
 const TOKYO_CENTER_COOTDINATE = {
   lat: 35.6550,
   lng: 139.75,
 };
-getData(console.log);
-console.log(DATA_OUTPUT);
+const ZOOM_MAP = 10;
+const MAIN_MARKER_OPTION = {
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+};
+const ANOTHER_MARKER_OPTION = {
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+};
+
 function mapDraw() {
   const map = L.map('map-canvas')
     .on('load', () => {
       pageToActive();
     })
-    .setView(TOKYO_CENTER_COOTDINATE, 10);
+    .setView(TOKYO_CENTER_COOTDINATE, ZOOM_MAP);
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
@@ -21,14 +33,14 @@ function mapDraw() {
     },
   ).addTo(map);
   const mainMarkerIcon = L.icon({
-    iconUrl: './img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconUrl: MAIN_MARKER_OPTION.iconUrl,
+    iconSize: MAIN_MARKER_OPTION.iconSize,
+    iconAnchor: MAIN_MARKER_OPTION.iconAnchor,
   });
   const anotherMarkerIcon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
+    iconUrl: ANOTHER_MARKER_OPTION.iconUrl,
+    iconSize: ANOTHER_MARKER_OPTION.iconSize,
+    iconAnchor: ANOTHER_MARKER_OPTION.iconAnchor,
   });
   const mainMarker = L.marker(
     TOKYO_CENTER_COOTDINATE,
@@ -36,13 +48,14 @@ function mapDraw() {
       draggable: true,
       icon: mainMarkerIcon,
     },
+    document.querySelector('#address').value=`${TOKYO_CENTER_COOTDINATE.lat.toFixed(5)},${TOKYO_CENTER_COOTDINATE.lng.toFixed(5)}`,
   );
   const markerGroup = L.layerGroup().addTo(map);
   const createMarker = (point) => {
     const anotherMarker = L.marker(
       {
-        lat: point.location.iat,
-        lng: point.location.ing,
+        lat: point.location.lat,
+        lng: point.location.lng,
       },
       {
         icon: anotherMarkerIcon,
@@ -59,11 +72,15 @@ function mapDraw() {
     const addressField = document.querySelector('#address');
     addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
-
-
-  /*DATA_OUTPUT.forEach((point) => {
-    createMarker(point);
-  });*/
+  
+  const mapForm = document.querySelector('.map__filters');
+  getData(
+    (data) => data.slice(0, COUNT_VIEW_OBJECTS).forEach(point => createMarker(point)),
+    (message) => {
+      disOrEnableFormElements(mapForm, true);
+      onError(message)
+    }
+    );
 }
 
 export { mapDraw };

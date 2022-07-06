@@ -86,8 +86,8 @@ const createOffer = (count) => {
       photos: getRandomElementsFromArray(OFFER_PHOTOS),
     },
     location: {
-      iat: LATITUDE,
-      ing: LONGITUDE,
+      lat: LATITUDE,
+      lng: LONGITUDE,
     },
   };
 };
@@ -100,4 +100,4 @@ const createOfferArray = (count) => {
   return data;
 };
 const DATA_OUTPUT = createOfferArray(COUNT_OBJECTS);
-export {DATA_OUTPUT,types,COUNT_OBJECTS};
+

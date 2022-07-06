@@ -40,4 +40,35 @@ function disOrEnableFormElements (form, directive){
     allElements[i].disabled=directive;
   }
 }
-export {getRandomArrayElement, getRandomNumber, getRandomElementsFromArray, getArrayOfObjectKeys, disOrEnableFormElements};
+//Функция сооьщения об ошибке при загрузке данных с сервера
+const ALERT_SHOW_TIME = 5000;
+function onError (message) {
+  const alertContainer = document.createElement('div');
+  alertContainer.classList.add('message-wrapper');
+  const alertMessage = document.createElement('div');
+  alertContainer.append(alertMessage);
+  
+  alertMessage.classList.add('message');
+ /* const alertMessage = alertContainer.createElement('div');
+  alertMessage.classList.add('message');
+  alertMessage.createElement('p').textContent = message;*/
+  /*
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+*/
+alertMessage.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+}
+export {getRandomArrayElement, getRandomNumber, getRandomElementsFromArray, getArrayOfObjectKeys, disOrEnableFormElements, onError};

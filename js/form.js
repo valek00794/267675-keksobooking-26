@@ -1,4 +1,6 @@
 import { disOrEnableFormElements } from './utils.js';
+import { sendData } from './api.js';
+import { onError } from './utils.js';
 const adForm = document.querySelector('.ad-form');
 const mapForm = document.querySelector('.map__filters');
 const divSlider = document.querySelector('.ad-form__slider');
@@ -130,9 +132,20 @@ pristine.addValidator(
   'Время заезда и выезда должно быть одинаково'
 );
 adForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
     evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    sendData(
+      () => {
+        onSuccess();
+      },
+      () => {
+        onError('Не удалось отправить форму. Попробуйте ещё раз4');
+      },
+      new FormData(evt.target),
+    );
+    
   }
+  
 });
 export { pageToNotActive, pageToActive };

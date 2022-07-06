@@ -1,4 +1,10 @@
-import { types } from './data.js';
+const types = {
+  palace:'Дворец',
+  flat:'Квартира',
+  house:'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
 function getCard(data) {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const element = cardTemplate.cloneNode(true);

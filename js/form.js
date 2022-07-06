@@ -1,8 +1,8 @@
 import { disOrEnableFormElements } from './utils.js';
 import { sendData } from './api.js';
-import { onError } from './utils.js';
+import { showSuccsessAlert, showErrorAlert } from './utils.js';
 const adForm = document.querySelector('.ad-form');
-const mapForm = document.querySelector('.map__filters');
+const filtersForm = document.querySelector('.map__filters');
 const divSlider = document.querySelector('.ad-form__slider');
 const roomField = adForm.querySelector('#room_number');
 const guestsField = adForm.querySelector('#capacity');
@@ -11,20 +11,26 @@ const typeField = adForm.querySelector('#type');
 const timeInField = adForm.querySelector('#timein');
 const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
+const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
+const adFormResetButton = adForm.querySelector('.ad-form__reset');
+
+function disablefiltersForm() {
+  filtersForm.classList.add('map__filters--disabled');
+  disOrEnableFormElements(filtersForm, true);
+}
 function pageToNotActive() {
   adForm.classList.add('ad-form--disabled');
-  mapForm.classList.add('map__filters--disabled');
   divSlider.style.opacity = '0.4';
   divSlider.style.pointerEvents = 'none';
   disOrEnableFormElements(adForm, true);
-  disOrEnableFormElements(mapForm, true);
+  disablefiltersForm();
 }
 function pageToActive() {
   adForm.classList.remove('ad-form--disabled');
-  mapForm.classList.remove('map__filters--disabled');
+  filtersForm.classList.remove('map__filters--disabled');
   divSlider.removeAttribute('style');
   disOrEnableFormElements(adForm, false);
-  disOrEnableFormElements(mapForm, false);
+  disOrEnableFormElements(filtersForm, false);
 }
 const TITLE_LENGTH_RANGE = {
   min: 30,
@@ -131,21 +137,36 @@ pristine.addValidator(
   validateChekinOut,
   'Время заезда и выезда должно быть одинаково'
 );
+
+const blockSubmitButton = () => {
+  adFormSubmitButton.disabled = true;
+  adFormSubmitButton.textContent = 'Прдождите..';
+};
+
+const unblockSubmitButton = () => {
+  adFormSubmitButton.disabled = false;
+  adFormSubmitButton.textContent = 'Опубликовать';
+};
+
+
 adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+  evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
+    blockSubmitButton();
     sendData(
       () => {
-        onSuccess();
+        showSuccsessAlert();
+        unblockSubmitButton();
       },
       () => {
-        onError('Не удалось отправить форму. Попробуйте ещё раз4');
+        showErrorAlert();
+        unblockSubmitButton();
       },
       new FormData(evt.target),
     );
-    
+
   }
-  
+
 });
-export { pageToNotActive, pageToActive };
+export { pageToNotActive, pageToActive, disablefiltersForm };

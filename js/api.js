@@ -1,31 +1,17 @@
-const getData = (onSuccess, onError) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data',
-  {
-    method: 'GET',
-    credentials: 'same-origin',
-  },
-  )
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    throw new Error(`Ошибка получения данных сервера ${response.status} ${response.statusText}`);
-  })
-  .then((data) => {
-    onSuccess(data);
-  })
-  .catch((err) => {
-    onError(err);
-  });
-}
+const getData = (onSuccess, onFail) => {
+  fetch('https://26.javascript.pages.academy/keksobooking/data')
+    .then((response) => response.json())
+    .then((offers) => {
+      onSuccess(offers);
+    })
+    .catch(() => onFail('Ошибка загрузки данных с сервера'));
+};
 
 const sendData = (onSuccess, onError, body) => {
   fetch(
     'https://26.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
-      credentials: 'same-origin',
       body,
     },
   )
@@ -41,4 +27,4 @@ const sendData = (onSuccess, onError, body) => {
     });
 };
 
-export { getData, sendData };
+export {getData, sendData};

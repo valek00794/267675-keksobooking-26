@@ -20,13 +20,14 @@ const ANOTHER_MARKER_SETTINGS = {
 
 const COUNT_VIEW_OBJECTS = 10;
 
+
 function mapDraw() {
   const map = L.map('map-canvas')
     .on('load', () => {
       pageToActive();
     })
-
     .setView(TOKYO_CENTER_COORDINATES,  MAP_ZOOM);
+
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {

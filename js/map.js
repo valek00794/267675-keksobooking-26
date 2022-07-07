@@ -33,16 +33,19 @@ function mapDraw() {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
+
   const mainMarkerIcon = L.icon({
     iconUrl: MAIN_MARKER_SETTINGS.iconUrl,
     iconSize: MAIN_MARKER_SETTINGS.iconSize,
     iconAnchor: MAIN_MARKER_SETTINGS.iconAnchor,
   });
+
   const anotherMarkerIcon = L.icon({
     iconUrl: ANOTHER_MARKER_SETTINGS.iconUrl,
     iconSize: ANOTHER_MARKER_SETTINGS.iconSize,
     iconAnchor: ANOTHER_MARKER_SETTINGS.iconAnchor,
   });
+
   const mainMarker = L.marker(
     TOKYO_CENTER_COORDINATES,
     {
@@ -52,16 +55,17 @@ function mapDraw() {
     document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`,
     document.querySelector('#title').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)} ${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`
 
-  );
-  mainMarker.addTo(map);
+  ).addTo(map);
+
+  const addressField = document.querySelector('#address');
   mainMarker.on('moveend', (evt) => {
     const coordinates = evt.target.getLatLng();
-    const addressField = document.querySelector('#address');
     addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
 
   const markerGroup = L.layerGroup().addTo(map);
-  const createMarker = (point) => {
+
+  function createMarker (point) {
     const anotherMarker = L.marker(
       {
         lat: point.location.lat,
@@ -75,7 +79,7 @@ function mapDraw() {
       .addTo(markerGroup)
       .bindPopup(getCard(point));
     return anotherMarker;
-  };
+  }
   //Получение данных с сервера и отрисовка маркеров
   //При ошибке вывод алерта и блокировка формы с фильтрами
   getData(
@@ -88,9 +92,17 @@ function mapDraw() {
       disablefiltersForm();
     }
   );
-
-
+  function resetMap () {
+    map
+      .setView(TOKYO_CENTER_COORDINATES, MAP_ZOOM)
+      .closePopup();
+    mainMarker
+      .setLatLng(TOKYO_CENTER_COORDINATES);
+  }
+  const adFormResetButton = document.querySelector('.ad-form__reset');
+  adFormResetButton.addEventListener('click', () => {
+    resetMap();
+  });
 }
-
 
 export { mapDraw };

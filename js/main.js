@@ -5,5 +5,5 @@ import {mapDraw} from './map.js';
 document.addEventListener('DOMContentLoaded', () => {
   pageToNotActive();
   mapDraw();
-  
+
 });

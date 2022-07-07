@@ -56,7 +56,7 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__error-text',
 });
 const sliderElement = document.querySelector('.ad-form__slider');
-noUiSlider.create(sliderElement, {
+const sliderSetting = {
   range: {
     min: SLIDER_RANGE.min,
     max: SLIDER_RANGE.max,
@@ -72,7 +72,9 @@ noUiSlider.create(sliderElement, {
       return parseFloat(value);
     },
   },
-});
+};
+noUiSlider.create(sliderElement, sliderSetting);
+
 sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
   pristine.validate();
@@ -138,16 +140,27 @@ pristine.addValidator(
   'Время заезда и выезда должно быть одинаково'
 );
 
-const blockSubmitButton = () => {
+function blockSubmitButton () {
   adFormSubmitButton.disabled = true;
   adFormSubmitButton.textContent = 'Прдождите..';
-};
+}
 
-const unblockSubmitButton = () => {
+function unblockSubmitButton () {
   adFormSubmitButton.disabled = false;
   adFormSubmitButton.textContent = 'Опубликовать';
-};
+}
 
+adFormResetButton.addEventListener('click', () => {
+  resetAdForm();
+});
+
+function resetAdForm () {
+  adForm.reset();
+  filtersForm.reset();
+  sliderElement.noUiSlider.updateOptions(sliderSetting);
+}
+
+//Отправка формы
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -158,6 +171,7 @@ adForm.addEventListener('submit', (evt) => {
       () => {
         showSuccsessAlert();
         unblockSubmitButton();
+        resetAdForm();
       },
       () => {
         showErrorAlert();

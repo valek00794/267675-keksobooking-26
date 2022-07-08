@@ -54,8 +54,6 @@ function mapDraw() {
       icon: mainMarkerIcon,
     },
     document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`,
-    document.querySelector('#title').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)} ${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`
-
   ).addTo(map);
 
   const addressField = document.querySelector('#address');
@@ -93,16 +91,16 @@ function mapDraw() {
       disablefiltersForm();
     }
   );
+  //Сброс карты в дефолтное состояние
   function resetMap () {
     map
       .setView(TOKYO_CENTER_COORDINATES, MAP_ZOOM)
       .closePopup();
     mainMarker
       .setLatLng(TOKYO_CENTER_COORDINATES);
-      document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
-  
+    document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
   }
-return { mapDraw, resetMap }
+  return { mapDraw, resetMap };
 }
 
 export { mapDraw };

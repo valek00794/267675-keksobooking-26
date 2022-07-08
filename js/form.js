@@ -149,6 +149,7 @@ function unblockSubmitButton () {
   adFormSubmitButton.disabled = false;
   adFormSubmitButton.textContent = 'Опубликовать';
 }
+//Функция кнопки сброса
 function buttonResetAdForm(resetMap) {
 adFormResetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
@@ -156,14 +157,14 @@ adFormResetButton.addEventListener('click', (evt) => {
   resetMap();
 });
 }
-
+//Функция сброса форм и слайдера
 function resetAdForm () {
   adForm.reset();
   filtersForm.reset();
   sliderElement.noUiSlider.updateOptions(sliderSetting);
 }
 
-//Отправка формы
+//Функция отправки формы
 function sendForm (resetMap) {
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();

@@ -99,11 +99,10 @@ function mapDraw() {
       .closePopup();
     mainMarker
       .setLatLng(TOKYO_CENTER_COORDINATES);
+      document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
+  
   }
-  const adFormResetButton = document.querySelector('.ad-form__reset');
-  adFormResetButton.addEventListener('click', () => {
-    resetMap();
-  });
+return { mapDraw, resetMap }
 }
 
 export { mapDraw };

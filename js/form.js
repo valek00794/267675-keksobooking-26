@@ -149,10 +149,13 @@ function unblockSubmitButton () {
   adFormSubmitButton.disabled = false;
   adFormSubmitButton.textContent = 'Опубликовать';
 }
-
-adFormResetButton.addEventListener('click', () => {
+function buttonResetAdForm(resetMap) {
+adFormResetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
   resetAdForm();
+  resetMap();
 });
+}
 
 function resetAdForm () {
   adForm.reset();
@@ -161,7 +164,7 @@ function resetAdForm () {
 }
 
 //Отправка формы
-
+function sendForm (resetMap) {
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
@@ -172,6 +175,7 @@ adForm.addEventListener('submit', (evt) => {
         showSuccsessAlert();
         unblockSubmitButton();
         resetAdForm();
+        resetMap();
       },
       () => {
         showErrorAlert();
@@ -183,4 +187,6 @@ adForm.addEventListener('submit', (evt) => {
   }
 
 });
-export { pageToNotActive, pageToActive, disablefiltersForm };
+}
+
+export { pageToNotActive, pageToActive, disablefiltersForm, sendForm, buttonResetAdForm };

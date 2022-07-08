@@ -1,9 +1,13 @@
-import {pageToNotActive} from './form.js';
+import {pageToNotActive, sendForm, buttonResetAdForm} from './form.js';
 import {mapDraw} from './map.js';
 
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   pageToNotActive();
-  mapDraw();
+  const {resetMap} = await mapDraw();
+  sendForm(resetMap);
+  buttonResetAdForm(resetMap);
+
+  
+
 
 });

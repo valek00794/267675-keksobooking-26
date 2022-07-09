@@ -1,6 +1,8 @@
 import { disOrEnableFormElements } from './utils.js';
+import { sendData } from './api.js';
+import { showSuccsessAlert, showErrorAlert } from './utils.js';
 const adForm = document.querySelector('.ad-form');
-const mapForm = document.querySelector('.map__filters');
+const filtersForm = document.querySelector('.map__filters');
 const divSlider = document.querySelector('.ad-form__slider');
 const roomField = adForm.querySelector('#room_number');
 const guestsField = adForm.querySelector('#capacity');
@@ -9,20 +11,26 @@ const typeField = adForm.querySelector('#type');
 const timeInField = adForm.querySelector('#timein');
 const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
+const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
+const adFormResetButton = adForm.querySelector('.ad-form__reset');
+
+function disablefiltersForm() {
+  filtersForm.classList.add('map__filters--disabled');
+  disOrEnableFormElements(filtersForm, true);
+}
 function pageToNotActive() {
   adForm.classList.add('ad-form--disabled');
-  mapForm.classList.add('map__filters--disabled');
   divSlider.style.opacity = '0.4';
   divSlider.style.pointerEvents = 'none';
   disOrEnableFormElements(adForm, true);
-  disOrEnableFormElements(mapForm, true);
+  disablefiltersForm();
 }
 function pageToActive() {
   adForm.classList.remove('ad-form--disabled');
-  mapForm.classList.remove('map__filters--disabled');
+  filtersForm.classList.remove('map__filters--disabled');
   divSlider.removeAttribute('style');
   disOrEnableFormElements(adForm, false);
-  disOrEnableFormElements(mapForm, false);
+  disOrEnableFormElements(filtersForm, false);
 }
 const TITLE_LENGTH_RANGE = {
   min: 30,
@@ -48,7 +56,7 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__error-text',
 });
 const sliderElement = document.querySelector('.ad-form__slider');
-noUiSlider.create(sliderElement, {
+const sliderSetting = {
   range: {
     min: SLIDER_RANGE.min,
     max: SLIDER_RANGE.max,
@@ -64,12 +72,14 @@ noUiSlider.create(sliderElement, {
       return parseFloat(value);
     },
   },
-});
+};
+noUiSlider.create(sliderElement, sliderSetting);
+
 sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
   pristine.validate();
 });
-function validateTitle (value) {
+function validateTitle(value) {
   return value.length >= TITLE_LENGTH_RANGE.min && value.length <= TITLE_LENGTH_RANGE.max;
 }
 pristine.addValidator();
@@ -88,22 +98,22 @@ typeField.addEventListener('change', () => {
   }
   pristine.validate();
 });
-function validatePrice (value) {
-  return  value <= MAX_PRICE_FOR_NIGHT && value >=minPriceForNight;
+function validatePrice(value) {
+  return value <= MAX_PRICE_FOR_NIGHT && value >= minPriceForNight;
 }
-function validatePriceMessage () {
-  return  `Мин. цена ${minPriceForNight} руб. и не более ${MAX_PRICE_FOR_NIGHT} руб.`;
+function validatePriceMessage() {
+  return `Мин. цена ${minPriceForNight} руб. и не более ${MAX_PRICE_FOR_NIGHT} руб.`;
 }
 pristine.addValidator(
   priceField,
   validatePrice,
   validatePriceMessage,
 );
-function validateRoomsGuests () {
+function validateRoomsGuests() {
   const СONDITION_EXCEPTION_FOR_GUESTS = '0';
   const СONDITION_EXCEPTION_FOR_ROOMS = '100';
   return (guestsField.value === СONDITION_EXCEPTION_FOR_GUESTS && roomField.value === СONDITION_EXCEPTION_FOR_ROOMS) ||
-  (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
+    (guestsField.value <= roomField.value && roomField.value !== СONDITION_EXCEPTION_FOR_ROOMS && guestsField.value !== СONDITION_EXCEPTION_FOR_GUESTS);
 }
 pristine.addValidator(
   guestsField,
@@ -114,25 +124,67 @@ roomField.addEventListener('change', () => {
   pristine.validate();
 });
 timeInField.addEventListener('change', () => {
-  timeОutField.value =timeInField.value;
+  timeОutField.value = timeInField.value;
   pristine.validate();
 });
 timeОutField.addEventListener('change', () => {
-  timeInField.value =timeОutField.value;
+  timeInField.value = timeОutField.value;
   pristine.validate();
 });
-function validateChekinOut () {
-  return  timeInField.value === timeОutField.value;
+function validateChekinOut() {
+  return timeInField.value === timeОutField.value;
 }
 pristine.addValidator(
   timeОutField,
   validateChekinOut,
   'Время заезда и выезда должно быть одинаково'
 );
-adForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
+
+function blockSubmitButton() {
+  adFormSubmitButton.disabled = true;
+  adFormSubmitButton.textContent = 'Прдождите..';
+}
+
+function unblockSubmitButton() {
+  adFormSubmitButton.disabled = false;
+  adFormSubmitButton.textContent = 'Опубликовать';
+}
+//Функция кнопки сброса
+function buttonResetAdForm(resetMap) {
+  adFormResetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-  }
-});
-export { pageToNotActive, pageToActive };
+    resetAdForm();
+    resetMap();
+  });
+}
+//Функция сброса форм и слайдера
+function resetAdForm() {
+  adForm.reset();
+  filtersForm.reset();
+  sliderElement.noUiSlider.updateOptions(sliderSetting);
+}
+//Функция отправки формы
+function sendForm(resetMap) {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          showSuccsessAlert();
+          unblockSubmitButton();
+          resetAdForm();
+          resetMap();
+        },
+        () => {
+          showErrorAlert();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+}
+
+export { pageToNotActive, pageToActive, disablefiltersForm, sendForm, buttonResetAdForm };

@@ -1,5 +1,5 @@
 import { pageToActive, disablefiltersForm} from './form.js';
-import { getData } from './api.js';
+import { getOfferData } from './api.js';
 import { getCard } from './create-card.js';
 import { showLoadAlert } from './utils.js';
 const TOKYO_CENTER_COORDINATES = {
@@ -212,7 +212,8 @@ function mapDraw() {
     mainMarker
       .setLatLng(TOKYO_CENTER_COORDINATES);
     document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
-    markerGroup.clearLayers();
+    createMarker(getOfferData());
+    
   }
   return { mapDraw, resetMap, createMarker,compareOfOfferType: compareOfferType };
 }

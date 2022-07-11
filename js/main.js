@@ -17,7 +17,8 @@ import {
   from './form.js';
 import {mapDraw} from './map.js';
 import {getData} from './api.js';
-import {showLoadAlert} from './utils.js';
+import {showLoadAlert, debounce} from './utils.js';
+const FILTER_DELAY = 500;
 
 document.addEventListener('DOMContentLoaded', () => {
   pageToNotActive();
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (offers) => {
      createMarker(offers);
      console.log(offers);
-     setFilterType(() => createMarker(offers));
+     setFilterType(debounce(() => createMarker(offers), FILTER_DELAY));
      setFilterPrice(() => createMarker(offers));
      setFilterRooms(() => createMarker(offers));
      setFilterGuests(() => createMarker(offers));

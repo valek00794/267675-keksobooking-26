@@ -188,7 +188,6 @@ function sendForm(resetMap) {
 
 function setFilter(cb) {
   filtersForm.addEventListener('change', () => {
-    
     cb();
   });
 }

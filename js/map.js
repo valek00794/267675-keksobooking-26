@@ -8,7 +8,7 @@ import {
   compareOfferGuests,
   compareOfferFeatures,
 }
-from './filter.js';
+  from './filter.js';
 
 const TOKYO_CENTER_COORDINATES = {
   lat: 35.6550,

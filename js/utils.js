@@ -99,7 +99,7 @@ function showErrorAlert() {
 
 // Источник - https://up.htmlacademy.ru/profession/react/10/javascript/26/tasks/21
 // Функция debounce для устранения дребезга
-function debounce (callback, timeoutDelay = 500) {
+function debounce(callback, timeoutDelay = 500) {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
@@ -117,14 +117,14 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export { 
-  getRandomArrayElement, 
-  getRandomNumber, 
-  getRandomElementsFromArray, 
-  getArrayOfObjectKeys, 
-  disOrEnableFormElements, 
-  showLoadAlert, 
-  showSuccsessAlert, 
+export {
+  getRandomArrayElement,
+  getRandomNumber,
+  getRandomElementsFromArray,
+  getArrayOfObjectKeys,
+  disOrEnableFormElements,
+  showLoadAlert,
+  showSuccsessAlert,
   showErrorAlert,
   debounce,
- };
+};

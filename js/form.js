@@ -236,14 +236,14 @@ function setFilterConditioner(cb) {
     cb();
   });
 }
-export { 
-  pageToNotActive, 
-  pageToActive, 
-  disablefiltersForm, 
-  sendForm, 
-  resetAdFormButton, 
-  setFilterType, 
-  setFilterPrice, 
+export {
+  pageToNotActive,
+  pageToActive,
+  disablefiltersForm,
+  sendForm,
+  resetAdFormButton,
+  setFilterType,
+  setFilterPrice,
   setFilterRooms,
   setFilterGuests,
   setFilterWiFi,

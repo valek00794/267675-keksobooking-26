@@ -11,7 +11,6 @@ function compareOfferType(item) {
       return true;
     }
     return item.offer.type === fillterTypeField.value;
-
   }
 
   function compareOfferPrice(item) {
@@ -48,6 +47,7 @@ function compareOfferType(item) {
       return true;
     }
   }
+
   function compareOfferFeatures(item) {
     const fillterFeaturesCheckbox= document.querySelectorAll('#housing-features input');
     const checkedFilterFeatures = [];
@@ -56,14 +56,14 @@ function compareOfferType(item) {
         if(feature.checked) {
           checkedFilterFeatures.push(feature.value);
         }
-      });
+    });
       if (!checkedFilterFeatures) {
         return true;
       }
       if (checkedFilterFeatures && itemFeatures) {
         return checkedFilterFeatures.every((feature) => itemFeatures.includes(feature));
       }
-    }
+  }
     
   export {
     compareOfferType,

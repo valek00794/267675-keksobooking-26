@@ -94,7 +94,12 @@ function compareOfferType(item) {
       return true;
     }
   }
-
+  function compareFeatures(item) {
+    const fillterFeaturesCheckbox= document.querySelector('#housing-features input');
+    
+    }
+  
+  
   export {
     compareOfferType,
     compareOfferPrice,

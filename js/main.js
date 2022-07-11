@@ -3,16 +3,7 @@ import {
   sendForm,
   resetAdFormButton,
   disablefiltersForm,
-  setFilterType,
-  setFilterPrice,
-  setFilterRooms,
-  setFilterGuests,
-  setFilterWiFi,
-  setFilterDishwasher,
-  setFilterParking,
-  setFilterWasher,
-  setFilterElevator,
-  setFilterConditioner,
+  setFilter,
 }
   from './form.js';
 import { mapDraw } from './map.js';
@@ -30,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
     (offers) => {
       createMarker(offers);
       console.log(offers);
-      setFilterType(debounce(() => createMarker(offers), FILTER_DELAY));
-      setFilterPrice(() => createMarker(offers));
+      setFilter(debounce(() => createMarker(offers), FILTER_DELAY));
+     /* setFilterPrice(() => createMarker(offers));
       setFilterRooms(() => createMarker(offers));
       setFilterGuests(() => createMarker(offers));
       setFilterWiFi(() => createMarker(offers));
@@ -39,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setFilterParking(() => createMarker(offers));
       setFilterWasher(() => createMarker(offers));
       setFilterElevator(() => createMarker(offers));
-      setFilterConditioner(() => createMarker(offers));
+      setFilterConditioner(() => createMarker(offers));*/
     },
     (message) => {
       showLoadAlert(message);

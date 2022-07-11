@@ -12,11 +12,6 @@ const timeInField = adForm.querySelector('#timein');
 const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
 const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
-const adFormResetButton = adForm.querySelector('.ad-form__reset');
-const fillterTypeField = filtersForm.querySelector('#housing-type');
-const fillterPriceField = filtersForm.querySelector('#housing-price');
-const fillterRoomsField = filtersForm.querySelector('#housing-rooms');
-const fillterGuestsField = filtersForm.querySelector('#housing-guests');
 
 function disablefiltersForm() {
   filtersForm.classList.add('map__filters--disabled');
@@ -154,8 +149,8 @@ function unblockSubmitButton() {
   adFormSubmitButton.textContent = 'Опубликовать';
 }
 //Функция кнопки сброса
-function buttonResetAdForm(resetMap) {
-  adFormResetButton.addEventListener('click', (evt) => {
+function resetAdFormButton(resetMap) {
+  adForm.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
     evt.preventDefault();
     resetAdForm();
     resetMap();
@@ -192,22 +187,52 @@ function sendForm(resetMap) {
 }
 
 function setFilterType(cb) {
-  fillterTypeField.addEventListener('change', () => {
+  filtersForm.querySelector('#housing-type').addEventListener('change', () => {
     cb();
   });
 }
 function setFilterPrice(cb) {
-  fillterPriceField.addEventListener('change', () => {
+  filtersForm.querySelector('#housing-price').addEventListener('change', () => {
     cb();
   });
 }
 function setFilterRooms(cb) {
-  fillterRoomsField.addEventListener('change', () => {
+  filtersForm.querySelector('#housing-rooms').addEventListener('change', () => {
     cb();
   });
 }
 function setFilterGuests(cb) {
-  fillterGuestsField.addEventListener('change', () => {
+  filtersForm.querySelector('#housing-guests').addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterWiFi(cb) {
+  filtersForm.querySelector('#filter-wifi').addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterDishwasher(cb) {
+  filtersForm.querySelector('#filter-dishwasher').addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterParking(cb) {
+  filtersForm.querySelector('#filter-parking').addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterWasher(cb) {
+  filtersForm.querySelector('#filter-washer').addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterElevator(cb) {
+  filtersForm.querySelector('#filter-elevator').addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterConditioner(cb) {
+  filtersForm.querySelector('#filter-conditioner').addEventListener('change', () => {
     cb();
   });
 }
@@ -216,9 +241,15 @@ export {
   pageToActive, 
   disablefiltersForm, 
   sendForm, 
-  buttonResetAdForm, 
+  resetAdFormButton, 
   setFilterType, 
   setFilterPrice, 
   setFilterRooms,
   setFilterGuests,
+  setFilterWiFi,
+  setFilterDishwasher,
+  setFilterParking,
+  setFilterWasher,
+  setFilterElevator,
+  setFilterConditioner,
 };

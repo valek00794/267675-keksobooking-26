@@ -70,7 +70,7 @@ function mapDraw() {
 
   
 
-  function compareOfOfferType (item) {
+  function compareOfferType (item) {
     const fillterTypeField = document.querySelector('#housing-type');
     if (fillterTypeField.value === FILLTER_SELECTED_DEFAULT) {
       return true
@@ -79,7 +79,7 @@ function mapDraw() {
     
     } 
 
-  function compareOfOfferPrice (item) {
+  function compareOfferPrice (item) {
     const fillterPriceField = document.querySelector('#housing-price');
     if (fillterPriceField.value === FILLTER_SELECTED_DEFAULT) {
       return true
@@ -95,7 +95,7 @@ function mapDraw() {
     } 
     }
 
-    function compareOfOfferRooms (item) {
+    function compareOfferRooms (item) {
       const fillterRoomsField = document.querySelector('#housing-rooms');
       if (fillterRoomsField.value === FILLTER_SELECTED_DEFAULT) {
         return true
@@ -104,28 +104,54 @@ function mapDraw() {
         return true
         
       } 
-      function compareOfOfferGuests (item) {
+      function compareOfferGuests (item) {
         const fillterGuestsField = document.querySelector('#housing-guests');
         if (fillterGuestsField.value === FILLTER_SELECTED_DEFAULT) {
           return true
         } 
-        if (Number(fillterGuestsField.value) === item.offer.guests)
+        if (Number(fillterGuestsField.value) === item.offer.guests) {
           return true
-          
+        }
         } 
+        function compareOfferIncludeWiFi (item) {
+          const fillterWiFiCheck = document.querySelector('#filter-wifi');
+          const offerFutures = item.offer.features;
+          if (!fillterWiFiCheck.checked) {
+            return true
+          } else {
+            if (offerFutures && offerFutures.some((feature) => feature === fillterWiFiCheck.value)) {
+              return true
+            }
+            } 
+          }
+        
+              
+          
 
     const markerGroup = L.layerGroup().addTo(map);
   function createMarker (offers) {
     markerGroup.clearLayers();
     offers
     .slice()
-    .filter(compareOfOfferType)
+    .filter(compareOfferType)
     .slice()
-    .filter(compareOfOfferPrice)
+    .filter(compareOfferPrice)
     .slice()
-    .filter(compareOfOfferRooms)
+    .filter(compareOfferRooms)
     .slice()
-    .filter(compareOfOfferGuests)
+    .filter(compareOfferGuests)
+    .slice()
+    .filter(compareOfferIncludeWiFi)
+    .slice()
+    .filter(compareOfferIncludeWiFi)
+    .slice()
+    .filter(compareOfferIncludeWiFi)
+    .slice()
+    .filter(compareOfferIncludeWiFi)
+    .slice()
+    .filter(compareOfferIncludeWiFi)
+    .slice()
+    .filter(compareOfferIncludeWiFi)
     .slice(0, COUNT_VIEW_OBJECTS)
     .forEach((point) => {
     const anotherMarker = L.marker(
@@ -153,7 +179,7 @@ function mapDraw() {
       .setLatLng(TOKYO_CENTER_COORDINATES);
     document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
   }
-  return { mapDraw, resetMap, createMarker,compareOfOfferType };
+  return { mapDraw, resetMap, createMarker,compareOfOfferType: compareOfferType };
 }
 
 export { mapDraw };

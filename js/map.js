@@ -113,18 +113,52 @@ function mapDraw() {
           return true
         }
         } 
-        function compareOfferIncludeWiFi (item) {
-          const fillterWiFiCheck = document.querySelector('#filter-wifi');
+        function compareFetures (item, field) {
           const offerFutures = item.offer.features;
-          if (!fillterWiFiCheck.checked) {
+          if (!field.checked) {
             return true
           } else {
-            if (offerFutures && offerFutures.some((feature) => feature === fillterWiFiCheck.value)) {
+            if (offerFutures && offerFutures.some((feature) => feature === field.value)) {
               return true
             }
-            } 
+        }
+      }
+      function compareOfferIncludeWiFi (item) {
+        const fillterWiFiCheck = document.querySelector('#filter-wifi');
+        if (compareFetures (item, fillterWiFiCheck)) {
+          return true
+        }
           }
-        
+          function compareOfferIncludeDishwasher (item) {
+            const fillterDishwasherCheck = document.querySelector('#filter-dishwasher');
+            if (compareFetures (item, fillterDishwasherCheck)) {
+              return true
+            }
+              }
+              function compareOfferIncludeParking (item) {
+                const fillterParkingCheck = document.querySelector('#filter-parking');
+                if (compareFetures (item, fillterParkingCheck)) {
+                  return true
+                }
+                  }
+                  function compareOfferIncludeWasher (item) {
+                    const fillterWasherCheck = document.querySelector('#filter-washer');
+                    if (compareFetures (item, fillterWasherCheck)) {
+                      return true
+                    }
+                      }
+                      function compareOfferIncludeElevator (item) {
+                        const fillterElevatorCheck = document.querySelector('#filter-elevator');
+                        if (compareFetures (item, fillterElevatorCheck)) {
+                          return true
+                        }
+                          }
+                          function compareOfferIncludeConditioner (item) {
+                            const fillterConditionerCheck = document.querySelector('#filter-conditioner');
+                            if (compareFetures (item, fillterConditionerCheck)) {
+                              return true
+                            }
+                              }
               
           
 
@@ -143,15 +177,15 @@ function mapDraw() {
     .slice()
     .filter(compareOfferIncludeWiFi)
     .slice()
-    .filter(compareOfferIncludeWiFi)
+    .filter(compareOfferIncludeDishwasher)
     .slice()
-    .filter(compareOfferIncludeWiFi)
+    .filter(compareOfferIncludeParking)
     .slice()
-    .filter(compareOfferIncludeWiFi)
+    .filter(compareOfferIncludeWasher)
     .slice()
-    .filter(compareOfferIncludeWiFi)
+    .filter(compareOfferIncludeElevator)
     .slice()
-    .filter(compareOfferIncludeWiFi)
+    .filter(compareOfferIncludeConditioner)
     .slice(0, COUNT_VIEW_OBJECTS)
     .forEach((point) => {
     const anotherMarker = L.marker(
@@ -178,6 +212,7 @@ function mapDraw() {
     mainMarker
       .setLatLng(TOKYO_CENTER_COORDINATES);
     document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
+    markerGroup.clearLayers();
   }
   return { mapDraw, resetMap, createMarker,compareOfOfferType: compareOfferType };
 }

@@ -19,7 +19,13 @@ const ANOTHER_MARKER_SETTINGS = {
 };
 
 const COUNT_VIEW_OBJECTS = 10;
-const DEFAULT_SELECTED_TYPE = 'any';
+const FILLTER_SELECTED_DEFAULT = 'any';
+const FILTER_PRICE_VALUES = ['low', 'middle', 'high'];
+const FILLTER_PRICE_RANGE = {
+  min: 10000,
+  max: 50000,
+};
+const FILTER_ROOMS_VALUES = [1, 2, 3];
 
 function mapDraw() {
   const map = L.map('map-canvas')
@@ -66,23 +72,60 @@ function mapDraw() {
 
   function compareOfOfferType (item) {
     const fillterTypeField = document.querySelector('#housing-type');
-    console.log(fillterTypeField.value);
-    if (fillterTypeField.value === DEFAULT_SELECTED_TYPE) {
+    if (fillterTypeField.value === FILLTER_SELECTED_DEFAULT) {
       return true
-    } else {
+    }
       return item.offer.type === fillterTypeField.value;  
-    }
     
+    } 
+
+  function compareOfOfferPrice (item) {
+    const fillterPriceField = document.querySelector('#housing-price');
+    if (fillterPriceField.value === FILLTER_SELECTED_DEFAULT) {
+      return true
     }
+    if (fillterPriceField.value === FILTER_PRICE_VALUES[0] && item.offer.price <= FILLTER_PRICE_RANGE.min) {
+      return true
+    }
+    if (fillterPriceField.value === FILTER_PRICE_VALUES[1] && (item.offer.price >= FILLTER_PRICE_RANGE.min && item.offer.price <= FILLTER_PRICE_RANGE.max)){
+    return true    
+    }
+    if (fillterPriceField.value === FILTER_PRICE_VALUES[2] && item.offer.price >= FILLTER_PRICE_RANGE.max){
+    return true   
+    } 
+    }
+
+    function compareOfOfferRooms (item) {
+      const fillterRoomsField = document.querySelector('#housing-rooms');
+      if (fillterRoomsField.value === FILLTER_SELECTED_DEFAULT) {
+        return true
+      } 
+      if (Number(fillterRoomsField.value) === item.offer.rooms)
+        return true
+        
+      } 
+      function compareOfOfferGuests (item) {
+        const fillterGuestsField = document.querySelector('#housing-guests');
+        if (fillterGuestsField.value === FILLTER_SELECTED_DEFAULT) {
+          return true
+        } 
+        if (Number(fillterGuestsField.value) === item.offer.guests)
+          return true
+          
+        } 
 
     const markerGroup = L.layerGroup().addTo(map);
   function createMarker (offers) {
-    
-    
     markerGroup.clearLayers();
     offers
     .slice()
     .filter(compareOfOfferType)
+    .slice()
+    .filter(compareOfOfferPrice)
+    .slice()
+    .filter(compareOfOfferRooms)
+    .slice()
+    .filter(compareOfOfferGuests)
     .slice(0, COUNT_VIEW_OBJECTS)
     .forEach((point) => {
     const anotherMarker = L.marker(

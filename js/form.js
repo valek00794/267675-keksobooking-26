@@ -13,7 +13,10 @@ const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
 const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
 const adFormResetButton = adForm.querySelector('.ad-form__reset');
-const typeOfferFilterField = filtersForm.querySelector('#housing-type');
+const fillterTypeField = filtersForm.querySelector('#housing-type');
+const fillterPriceField = filtersForm.querySelector('#housing-price');
+const fillterRoomsField = filtersForm.querySelector('#housing-rooms');
+const fillterGuestsField = filtersForm.querySelector('#housing-guests');
 
 function disablefiltersForm() {
   filtersForm.classList.add('map__filters--disabled');
@@ -188,10 +191,34 @@ function sendForm(resetMap) {
   });
 }
 
-function setFilterTypeOffers(cb) {
-  typeOfferFilterField.addEventListener('change', () => {
+function setFilterType(cb) {
+  fillterTypeField.addEventListener('change', () => {
     cb();
   });
 }
-
-export { pageToNotActive, pageToActive, disablefiltersForm, sendForm, buttonResetAdForm, setFilterTypeOffers};
+function setFilterPrice(cb) {
+  fillterPriceField.addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterRooms(cb) {
+  fillterRoomsField.addEventListener('change', () => {
+    cb();
+  });
+}
+function setFilterGuests(cb) {
+  fillterGuestsField.addEventListener('change', () => {
+    cb();
+  });
+}
+export { 
+  pageToNotActive, 
+  pageToActive, 
+  disablefiltersForm, 
+  sendForm, 
+  buttonResetAdForm, 
+  setFilterType, 
+  setFilterPrice, 
+  setFilterRooms,
+  setFilterGuests,
+};

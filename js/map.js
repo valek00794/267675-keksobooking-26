@@ -19,7 +19,7 @@ const ANOTHER_MARKER_SETTINGS = {
 };
 
 const COUNT_VIEW_OBJECTS = 10;
-
+const DEFAULT_SELECTED_TYPE = 'any';
 
 function mapDraw() {
   const map = L.map('map-canvas')
@@ -62,9 +62,29 @@ function mapDraw() {
     addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
 
-  const markerGroup = L.layerGroup().addTo(map);
+  
 
-  function createMarker (point) {
+  function compareOfOfferType (item) {
+    const fillterTypeField = document.querySelector('#housing-type');
+    console.log(fillterTypeField.value);
+    if (fillterTypeField.value === DEFAULT_SELECTED_TYPE) {
+      return true
+    } else {
+      return item.offer.type === fillterTypeField.value;  
+    }
+    
+    }
+
+    const markerGroup = L.layerGroup().addTo(map);
+  function createMarker (offers) {
+    
+    
+    markerGroup.clearLayers();
+    offers
+    .slice()
+    .filter(compareOfOfferType)
+    .slice(0, COUNT_VIEW_OBJECTS)
+    .forEach((point) => {
     const anotherMarker = L.marker(
       {
         lat: point.location.lat,
@@ -78,19 +98,9 @@ function mapDraw() {
       .addTo(markerGroup)
       .bindPopup(getCard(point));
     return anotherMarker;
+    });
   }
-  //Получение данных с сервера и отрисовка маркеров
-  //При ошибке вывод алерта и блокировка формы с фильтрами
-  getData(
-    (offers) => {
-      offers.slice(0, COUNT_VIEW_OBJECTS).forEach((point) => {
-        createMarker(point);
-      });},
-    (message) => {
-      showLoadAlert(message);
-      disablefiltersForm();
-    }
-  );
+  
   //Сброс карты в дефолтное состояние
   function resetMap () {
     map
@@ -100,7 +110,7 @@ function mapDraw() {
       .setLatLng(TOKYO_CENTER_COORDINATES);
     document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
   }
-  return { mapDraw, resetMap };
+  return { mapDraw, resetMap, createMarker,compareOfOfferType };
 }
 
 export { mapDraw };

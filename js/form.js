@@ -13,6 +13,7 @@ const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
 const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
 const adFormResetButton = adForm.querySelector('.ad-form__reset');
+const typeOfferFilterField = filtersForm.querySelector('#housing-type');
 
 function disablefiltersForm() {
   filtersForm.classList.add('map__filters--disabled');
@@ -187,4 +188,10 @@ function sendForm(resetMap) {
   });
 }
 
-export { pageToNotActive, pageToActive, disablefiltersForm, sendForm, buttonResetAdForm };
+function setFilterTypeOffers(cb) {
+  typeOfferFilterField.addEventListener('change', () => {
+    cb();
+  });
+}
+
+export { pageToNotActive, pageToActive, disablefiltersForm, sendForm, buttonResetAdForm, setFilterTypeOffers};

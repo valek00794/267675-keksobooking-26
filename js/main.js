@@ -20,17 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   getData(
     (offers) => {
       createMarker(offers);
-      console.log(offers);
       setFilter(debounce(() => createMarker(offers), FILTER_DELAY));
-     /* setFilterPrice(() => createMarker(offers));
-      setFilterRooms(() => createMarker(offers));
-      setFilterGuests(() => createMarker(offers));
-      setFilterWiFi(() => createMarker(offers));
-      setFilterDishwasher(() => createMarker(offers));
-      setFilterParking(() => createMarker(offers));
-      setFilterWasher(() => createMarker(offers));
-      setFilterElevator(() => createMarker(offers));
-      setFilterConditioner(() => createMarker(offers));*/
     },
     (message) => {
       showLoadAlert(message);

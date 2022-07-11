@@ -6,12 +6,7 @@ import {
   compareOfferType,
   compareOfferRooms,
   compareOfferGuests,
-  compareOfferIncludeWiFi,
-  compareOfferIncludeDishwasher,
-  compareOfferIncludeParking,
-  compareOfferIncludeWasher,
-  compareOfferIncludeElevator,
-  compareOfferIncludeConditioner,
+  compareOfferFeatures,
 }
 from './filter.js';
 
@@ -80,7 +75,10 @@ function mapDraw() {
     offers
       .slice()
       .filter(compareOfferType)
-
+      .filter(compareOfferPrice)
+      .filter(compareOfferRooms)
+      .filter(compareOfferGuests)
+      .filter(compareOfferFeatures)
       .slice(0, COUNT_VIEW_OBJECTS)
       .forEach((point) => {
         const anotherMarker = L.marker(

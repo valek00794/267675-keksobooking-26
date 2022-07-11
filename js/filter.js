@@ -48,67 +48,27 @@ function compareOfferType(item) {
       return true;
     }
   }
-  function compareFetures(item, field) {
-    const offerFutures = item.offer.features;
-    if (!field.checked) {
-      return true;
-    } else {
-      if (offerFutures && offerFutures.some((feature) => feature === field.value)) {
+  function compareOfferFeatures(item) {
+    const fillterFeaturesCheckbox= document.querySelectorAll('#housing-features input');
+    const checkedFilterFeatures = [];
+    const itemFeatures = item.offer.features;
+    fillterFeaturesCheckbox.forEach((feature) => {
+        if(feature.checked) {
+          checkedFilterFeatures.push(feature.value);
+        }
+      });
+      if (!checkedFilterFeatures) {
         return true;
       }
+      if (checkedFilterFeatures && itemFeatures) {
+        return checkedFilterFeatures.every((feature) => itemFeatures.includes(feature));
+      }
     }
-  }
-  function compareOfferIncludeWiFi(item) {
-    const fillterWiFiCheck = document.querySelector('#filter-wifi');
-    if (compareFetures(item, fillterWiFiCheck)) {
-      return true;
-    }
-  }
-  function compareOfferIncludeDishwasher(item) {
-    const fillterDishwasherCheck = document.querySelector('#filter-dishwasher');
-    if (compareFetures(item, fillterDishwasherCheck)) {
-      return true;
-    }
-  }
-  function compareOfferIncludeParking(item) {
-    const fillterParkingCheck = document.querySelector('#filter-parking');
-    if (compareFetures(item, fillterParkingCheck)) {
-      return true;
-    }
-  }
-  function compareOfferIncludeWasher(item) {
-    const fillterWasherCheck = document.querySelector('#filter-washer');
-    if (compareFetures(item, fillterWasherCheck)) {
-      return true;
-    }
-  }
-  function compareOfferIncludeElevator(item) {
-    const fillterElevatorCheck = document.querySelector('#filter-elevator');
-    if (compareFetures(item, fillterElevatorCheck)) {
-      return true;
-    }
-  }
-  function compareOfferIncludeConditioner(item) {
-    const fillterConditionerCheck = document.querySelector('#filter-conditioner');
-    if (compareFetures(item, fillterConditionerCheck)) {
-      return true;
-    }
-  }
-  function compareFeatures(item) {
-    const fillterFeaturesCheckbox= document.querySelector('#housing-features input');
     
-    }
-  
-  
   export {
     compareOfferType,
     compareOfferPrice,
     compareOfferRooms,
     compareOfferGuests,
-    compareOfferIncludeWiFi,
-    compareOfferIncludeDishwasher,
-    compareOfferIncludeParking,
-    compareOfferIncludeWasher,
-    compareOfferIncludeElevator,
-    compareOfferIncludeConditioner,
+    compareOfferFeatures,
   }

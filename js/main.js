@@ -9,6 +9,7 @@ import {
 import { mapDraw } from './map.js';
 import { getData } from './api.js';
 import { showLoadAlert, debounce } from './utils.js';
+
 const FILTER_DELAY = 500;
 
 document.addEventListener('DOMContentLoaded', () => {

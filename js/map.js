@@ -27,7 +27,7 @@ const ANOTHER_MARKER_SETTINGS = {
 };
 
 const COUNT_VIEW_OBJECTS = 10;
-
+//Инициализация карты Leaflet с использованием openstreetmap
 function mapDraw() {
   const map = L.map('map-canvas')
     .on('load', () => {
@@ -53,7 +53,7 @@ function mapDraw() {
     iconSize: ANOTHER_MARKER_SETTINGS.iconSize,
     iconAnchor: ANOTHER_MARKER_SETTINGS.iconAnchor,
   });
-
+  //Отрисовка главной метки
   const mainMarker = L.marker(
     TOKYO_CENTER_COORDINATES,
     {
@@ -69,6 +69,7 @@ function mapDraw() {
     addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
 
+  //Отрисовка меток на новом слое
   const markerGroup = L.layerGroup().addTo(map);
   function createMarker(offers) {
     markerGroup.clearLayers();

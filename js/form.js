@@ -1,6 +1,7 @@
 import { disOrEnableFormElements } from './utils.js';
 import { sendData } from './api.js';
 import { showSuccsessAlert, showErrorAlert } from './utils.js';
+
 const adForm = document.querySelector('.ad-form');
 const filtersForm = document.querySelector('.map__filters');
 const sliderElement = document.querySelector('.ad-form__slider');
@@ -12,6 +13,11 @@ const timeInField = adForm.querySelector('#timein');
 const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
 const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
+const avatarImgChooser = adForm.querySelector('#avatar');
+const previewAvatarField = adForm.querySelector('.ad-form-header__preview img');
+const offerImgChooser = adForm.querySelector('#images');
+const previewOfferField = adForm.querySelector('.ad-form__photo img');
+const avatarImgDefault = previewAvatarField.src;
 
 const TITLE_LENGTH_RANGE = {
   min: 30,
@@ -31,6 +37,7 @@ const SLIDER_RANGE = {
   start: 0,
   step: 1,
 };
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 //Функции активации и деактиввации форм
 function disablefiltersForm() {
   filtersForm.classList.add('map__filters--disabled');
@@ -155,6 +162,8 @@ function resetAdFormButton(resetMap) {
     evt.preventDefault();
     resetAdForm();
     resetMap();
+    previewAvatarField.src = avatarImgDefault;
+    previewOfferField.innerHTML = '';
   });
 }
 //Функция сброса форм и слайдера
@@ -186,12 +195,31 @@ function sendForm(resetMap) {
     }
   });
 }
-//Изменение фильтра
+
 function setFilter(cb) {
   filtersForm.addEventListener('change', () => {
     cb();
   });
 }
+
+function previewImg (chooser, field) {
+  const file = chooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    field.src = URL.createObjectURL(file);
+  }
+}
+avatarImgChooser.addEventListener('change', () => {
+  previewImg (avatarImgChooser, previewAvatarField);
+
+});
+
+offerImgChooser.addEventListener('change', () => {
+  previewImg (offerImgChooser, previewOfferField);
+
+});
 
 export {
   pageToNotActive,

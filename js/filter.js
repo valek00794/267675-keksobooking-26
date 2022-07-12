@@ -4,50 +4,30 @@ const FILLTER_PRICE_RANGE = {
   min: 10000,
   max: 50000,
 };
-
+//Сравнение типа жилья и значения фильтра
 function compareOfferType(item) {
   const fillterTypeField = document.querySelector('#housing-type');
-  if (fillterTypeField.value === FILLTER_SELECTED_DEFAULT) {
-    return true;
-  }
-  return item.offer.type === fillterTypeField.value;
+  return fillterTypeField.value === FILLTER_SELECTED_DEFAULT || fillterTypeField.value === item.offer.type;
 }
-
+//Сравнение цены жилья и значения фильтра
 function compareOfferPrice(item) {
   const fillterPriceField = document.querySelector('#housing-price');
-  if (fillterPriceField.value === FILLTER_SELECTED_DEFAULT) {
-    return true;
-  }
-  if (fillterPriceField.value === FILTER_PRICE_VALUES[0] && item.offer.price <= FILLTER_PRICE_RANGE.min) {
-    return true;
-  }
-  if (fillterPriceField.value === FILTER_PRICE_VALUES[1] && (item.offer.price >= FILLTER_PRICE_RANGE.min && item.offer.price <= FILLTER_PRICE_RANGE.max)) {
-    return true;
-  }
-  if (fillterPriceField.value === FILTER_PRICE_VALUES[2] && item.offer.price >= FILLTER_PRICE_RANGE.max) {
-    return true;
-  }
+  return (fillterPriceField.value === FILLTER_SELECTED_DEFAULT)
+  || (fillterPriceField.value === FILTER_PRICE_VALUES[0] && item.offer.price <= FILLTER_PRICE_RANGE.min)
+  || (fillterPriceField.value === FILTER_PRICE_VALUES[1] && (item.offer.price >= FILLTER_PRICE_RANGE.min && item.offer.price <= FILLTER_PRICE_RANGE.max))
+  || (fillterPriceField.value === FILTER_PRICE_VALUES[2] && item.offer.price >= FILLTER_PRICE_RANGE.max);
 }
-
+//Сравнение количества комнат и значения фильтра
 function compareOfferRooms(item) {
   const fillterRoomsField = document.querySelector('#housing-rooms');
-  if (fillterRoomsField.value === FILLTER_SELECTED_DEFAULT) {
-    return true;
-  }
-  if (Number(fillterRoomsField.value) === item.offer.rooms) {
-    return true;
-  }
+  return fillterRoomsField.value === FILLTER_SELECTED_DEFAULT || Number(fillterRoomsField.value) === item.offer.rooms;
 }
+//Сравнение количества гостей и значения фильтра
 function compareOfferGuests(item) {
   const fillterGuestsField = document.querySelector('#housing-guests');
-  if (fillterGuestsField.value === FILLTER_SELECTED_DEFAULT) {
-    return true;
-  }
-  if (Number(fillterGuestsField.value) === item.offer.guests) {
-    return true;
-  }
+  return fillterGuestsField.value === FILLTER_SELECTED_DEFAULT || Number(fillterGuestsField.value) === item.offer.guests;
 }
-
+//Сравнение наличия особеннойстей со значениями фильтра
 function compareOfferFeatures(item) {
   const fillterFeaturesCheckbox = document.querySelectorAll('#housing-features input');
   const checkedFilterFeatures = [];

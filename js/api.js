@@ -1,10 +1,10 @@
-let receivedData = [];
-const getOfferData = () => receivedData.slice();
+let receivedOffers = [];
+const getOfferData = () => receivedOffers.slice();
 const getData = (onSuccess, onFail) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((offers) => {
-      receivedData = offers;
+      receivedOffers = offers;
       onSuccess(offers);
     })
     .catch(() => onFail('Ошибка загрузки данных с сервера'));

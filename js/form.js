@@ -87,6 +87,9 @@ sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
   pristine.validate();
 });
+priceField.addEventListener('input', () => {
+  sliderElement.noUiSlider.set(priceField.value);
+});
 
 function validateTitle(value) {
   return value.length >= TITLE_LENGTH_RANGE.min && value.length <= TITLE_LENGTH_RANGE.max;

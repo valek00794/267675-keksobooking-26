@@ -18,6 +18,7 @@ const previewAvatarField = adForm.querySelector('.ad-form-header__preview img');
 const offerImgChooser = adForm.querySelector('#images');
 const previewOfferField = adForm.querySelector('.ad-form__photo img');
 const avatarImgDefault = previewAvatarField.src;
+const offerImgDefault = previewOfferField.src;
 
 const TITLE_LENGTH_RANGE = {
   min: 30,
@@ -162,8 +163,6 @@ function resetAdFormButton(resetMap) {
     evt.preventDefault();
     resetAdForm();
     resetMap();
-    previewAvatarField.src = avatarImgDefault;
-    previewOfferField.innerHTML = '';
   });
 }
 //Функция сброса форм и слайдера
@@ -171,6 +170,8 @@ function resetAdForm() {
   adForm.reset();
   filtersForm.reset();
   sliderElement.noUiSlider.updateOptions(sliderSetting);
+  previewAvatarField.src = avatarImgDefault;
+  previewOfferField.src = offerImgDefault;
 }
 //Функция отправки формы
 function sendForm(resetMap) {

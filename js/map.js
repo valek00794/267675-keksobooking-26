@@ -1,7 +1,15 @@
-import { pageToActive, disablefiltersForm} from './form.js';
-import { getData } from './api.js';
+import { pageToActive } from './form.js';
+import { getOfferData } from './api.js';
 import { getCard } from './create-card.js';
-import { showLoadAlert } from './utils.js';
+import {
+  compareOfferPrice,
+  compareOfferType,
+  compareOfferRooms,
+  compareOfferGuests,
+  compareOfferFeatures,
+}
+  from './filter.js';
+
 const TOKYO_CENTER_COORDINATES = {
   lat: 35.6550,
   lng: 139.75,
@@ -19,14 +27,13 @@ const ANOTHER_MARKER_SETTINGS = {
 };
 
 const COUNT_VIEW_OBJECTS = 10;
-
-
+//Инициализация карты Leaflet с использованием openstreetmap
 function mapDraw() {
   const map = L.map('map-canvas')
     .on('load', () => {
       pageToActive();
     })
-    .setView(TOKYO_CENTER_COORDINATES,  MAP_ZOOM);
+    .setView(TOKYO_CENTER_COORDINATES, MAP_ZOOM);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -46,14 +53,14 @@ function mapDraw() {
     iconSize: ANOTHER_MARKER_SETTINGS.iconSize,
     iconAnchor: ANOTHER_MARKER_SETTINGS.iconAnchor,
   });
-
+  //Отрисовка главной метки
   const mainMarker = L.marker(
     TOKYO_CENTER_COORDINATES,
     {
       draggable: true,
       icon: mainMarkerIcon,
     },
-    document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`,
+    document.querySelector('#address').value = `${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`,
   ).addTo(map);
 
   const addressField = document.querySelector('#address');
@@ -62,45 +69,47 @@ function mapDraw() {
     addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
 
+  //Отрисовка меток на новом слое
   const markerGroup = L.layerGroup().addTo(map);
-
-  function createMarker (point) {
-    const anotherMarker = L.marker(
-      {
-        lat: point.location.lat,
-        lng: point.location.lng,
-      },
-      {
-        icon: anotherMarkerIcon,
-      },
-    );
-    anotherMarker
-      .addTo(markerGroup)
-      .bindPopup(getCard(point));
-    return anotherMarker;
+  function createMarker(offers) {
+    markerGroup.clearLayers();
+    offers
+      .slice()
+      .filter(compareOfferType)
+      .filter(compareOfferPrice)
+      .filter(compareOfferRooms)
+      .filter(compareOfferGuests)
+      .filter(compareOfferFeatures)
+      .slice(0, COUNT_VIEW_OBJECTS)
+      .forEach((point) => {
+        const anotherMarker = L.marker(
+          {
+            lat: point.location.lat,
+            lng: point.location.lng,
+          },
+          {
+            icon: anotherMarkerIcon,
+          },
+        );
+        anotherMarker
+          .addTo(markerGroup)
+          .bindPopup(getCard(point));
+        return anotherMarker;
+      });
   }
-  //Получение данных с сервера и отрисовка маркеров
-  //При ошибке вывод алерта и блокировка формы с фильтрами
-  getData(
-    (offers) => {
-      offers.slice(0, COUNT_VIEW_OBJECTS).forEach((point) => {
-        createMarker(point);
-      });},
-    (message) => {
-      showLoadAlert(message);
-      disablefiltersForm();
-    }
-  );
+
   //Сброс карты в дефолтное состояние
-  function resetMap () {
+  function resetMap() {
     map
       .setView(TOKYO_CENTER_COORDINATES, MAP_ZOOM)
       .closePopup();
     mainMarker
       .setLatLng(TOKYO_CENTER_COORDINATES);
-    document.querySelector('#address').value=`${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
+    document.querySelector('#address').value = `${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
+    createMarker(getOfferData());
+
   }
-  return { mapDraw, resetMap };
+  return { mapDraw, resetMap, createMarker, compareOfOfferType: compareOfferType };
 }
 
 export { mapDraw };

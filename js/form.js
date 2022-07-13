@@ -3,7 +3,7 @@ import { sendData } from './api.js';
 import { showSuccsessAlert, showErrorAlert } from './utils.js';
 const adForm = document.querySelector('.ad-form');
 const filtersForm = document.querySelector('.map__filters');
-const divSlider = document.querySelector('.ad-form__slider');
+const sliderElement = document.querySelector('.ad-form__slider');
 const roomField = adForm.querySelector('#room_number');
 const guestsField = adForm.querySelector('#capacity');
 const priceField = adForm.querySelector('#price');
@@ -12,26 +12,7 @@ const timeInField = adForm.querySelector('#timein');
 const timeОutField = adForm.querySelector('#timeout');
 const titleField = adForm.querySelector('#title');
 const adFormSubmitButton = adForm.querySelector('.ad-form__submit');
-const adFormResetButton = adForm.querySelector('.ad-form__reset');
 
-function disablefiltersForm() {
-  filtersForm.classList.add('map__filters--disabled');
-  disOrEnableFormElements(filtersForm, true);
-}
-function pageToNotActive() {
-  adForm.classList.add('ad-form--disabled');
-  divSlider.style.opacity = '0.4';
-  divSlider.style.pointerEvents = 'none';
-  disOrEnableFormElements(adForm, true);
-  disablefiltersForm();
-}
-function pageToActive() {
-  adForm.classList.remove('ad-form--disabled');
-  filtersForm.classList.remove('map__filters--disabled');
-  divSlider.removeAttribute('style');
-  disOrEnableFormElements(adForm, false);
-  disOrEnableFormElements(filtersForm, false);
-}
 const TITLE_LENGTH_RANGE = {
   min: 30,
   max: 100,
@@ -50,12 +31,32 @@ const SLIDER_RANGE = {
   start: 0,
   step: 1,
 };
+//Функции активации и деактиввации форм
+function disablefiltersForm() {
+  filtersForm.classList.add('map__filters--disabled');
+  disOrEnableFormElements(filtersForm, true);
+}
+function pageToNotActive() {
+  adForm.classList.add('ad-form--disabled');
+  sliderElement.style.opacity = '0.4';
+  sliderElement.style.pointerEvents = 'none';
+  disOrEnableFormElements(adForm, true);
+  disablefiltersForm();
+}
+function pageToActive() {
+  adForm.classList.remove('ad-form--disabled');
+  filtersForm.classList.remove('map__filters--disabled');
+  sliderElement.removeAttribute('style');
+  disOrEnableFormElements(adForm, false);
+  disOrEnableFormElements(filtersForm, false);
+}
+//Валидация внешним API Pristine
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error-text',
 });
-const sliderElement = document.querySelector('.ad-form__slider');
+//Слайдер noUiSlider
 const sliderSetting = {
   range: {
     min: SLIDER_RANGE.min,
@@ -74,11 +75,11 @@ const sliderSetting = {
   },
 };
 noUiSlider.create(sliderElement, sliderSetting);
-
 sliderElement.noUiSlider.on('update', () => {
   priceField.value = sliderElement.noUiSlider.get();
   pristine.validate();
 });
+
 function validateTitle(value) {
   return value.length >= TITLE_LENGTH_RANGE.min && value.length <= TITLE_LENGTH_RANGE.max;
 }
@@ -139,19 +140,18 @@ pristine.addValidator(
   validateChekinOut,
   'Время заезда и выезда должно быть одинаково'
 );
-
+//Блокировка и разблокировка кнопки при отправки
 function blockSubmitButton() {
   adFormSubmitButton.disabled = true;
   adFormSubmitButton.textContent = 'Прдождите..';
 }
-
 function unblockSubmitButton() {
   adFormSubmitButton.disabled = false;
   adFormSubmitButton.textContent = 'Опубликовать';
 }
 //Функция кнопки сброса
-function buttonResetAdForm(resetMap) {
-  adFormResetButton.addEventListener('click', (evt) => {
+function resetAdFormButton(resetMap) {
+  adForm.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
     evt.preventDefault();
     resetAdForm();
     resetMap();
@@ -186,5 +186,18 @@ function sendForm(resetMap) {
     }
   });
 }
+//Изменение фильтра
+function setFilter(cb) {
+  filtersForm.addEventListener('change', () => {
+    cb();
+  });
+}
 
-export { pageToNotActive, pageToActive, disablefiltersForm, sendForm, buttonResetAdForm };
+export {
+  pageToNotActive,
+  pageToActive,
+  disablefiltersForm,
+  sendForm,
+  resetAdFormButton,
+  setFilter,
+};

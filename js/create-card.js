@@ -5,6 +5,7 @@ const types = {
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+//Создание карточки(попапа) объявления
 function getCard(data) {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const element = cardTemplate.cloneNode(true);
@@ -44,7 +45,6 @@ function getCard(data) {
   else {
     element.querySelector('.popup__text--time').remove();
   }
-
   const cardFetures = data.offer.features;
   if (Array.isArray(cardFetures) && cardFetures.length) {
     const modifiers = cardFetures.map((cardFeature) => `popup__feature--${cardFeature}`);
@@ -89,4 +89,5 @@ function getCard(data) {
   }
   return element;
 }
+
 export { getCard };

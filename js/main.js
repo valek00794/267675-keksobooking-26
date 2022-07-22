@@ -22,12 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     (offers) => {
       createMarker(offers);
       setFilter(debounce(() => createMarker(offers), FILTER_DELAY));
+      sendForm(offers, resetMap);
+      resetAdFormButton(offers, resetMap);
     },
     (message) => {
       showLoadAlert(message);
       disablefiltersForm();
     }
   );
-  sendForm(resetMap);
-  resetAdFormButton(resetMap);
 });

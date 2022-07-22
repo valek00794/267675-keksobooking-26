@@ -1,5 +1,4 @@
 import { pageToActive } from './form.js';
-import { getOfferData } from './api.js';
 import { getCard } from './create-card.js';
 import {
   compareOfferPrice,
@@ -99,14 +98,14 @@ function mapDraw() {
   }
 
   //Сброс карты в дефолтное состояние
-  function resetMap() {
+  function resetMap(offers) {
     map
       .setView(TOKYO_CENTER_COORDINATES, MAP_ZOOM)
       .closePopup();
     mainMarker
       .setLatLng(TOKYO_CENTER_COORDINATES);
     document.querySelector('#address').value = `${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
-    createMarker(getOfferData());
+    createMarker(offers);
 
   }
   return { mapDraw, resetMap, createMarker, compareOfOfferType: compareOfferType };

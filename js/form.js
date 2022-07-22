@@ -162,11 +162,11 @@ function unblockSubmitButton() {
   adFormSubmitButton.textContent = 'Опубликовать';
 }
 //Функция кнопки сброса
-function resetAdFormButton(resetMap) {
+function resetAdFormButton(offers, resetMap) {
   adForm.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
     evt.preventDefault();
     resetAdForm();
-    resetMap();
+    resetMap(offers);
   });
 }
 //Функция сброса форм и слайдера
@@ -178,7 +178,7 @@ function resetAdForm() {
   previewOfferField.src = offerImgDefault;
 }
 //Функция отправки формы
-function sendForm(resetMap) {
+function sendForm(offers, resetMap) {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -189,7 +189,7 @@ function sendForm(resetMap) {
           showSuccsessAlert();
           unblockSubmitButton();
           resetAdForm();
-          resetMap();
+          resetMap(offers);
         },
         () => {
           showErrorAlert();

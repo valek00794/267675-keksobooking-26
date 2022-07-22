@@ -9,8 +9,6 @@ function getRandomNumber(min, max, decimal) {
   }
   throw new RangeError('Входные данные вне диапазона');
 }
-//Функция получения случайного элемента из массива
-function getRandomArrayElement(elements) { { return elements[getRandomNumber(0, elements.length - 1)]; } }
 //Функция получения случайного массива из исходного массива
 function getRandomElementsFromArray(features) {
   const maxLength = features.length;
@@ -118,7 +116,6 @@ function debounce(callback, timeoutDelay = 500) {
 }
 
 export {
-  getRandomArrayElement,
   getRandomNumber,
   getRandomElementsFromArray,
   getArrayOfObjectKeys,

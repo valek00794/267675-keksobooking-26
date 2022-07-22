@@ -3,14 +3,13 @@ import {
   sendForm,
   resetAdFormButton,
   disablefiltersForm,
-  setFilter,
-}
+  }
   from './form.js';
 import { mapDraw } from './map.js';
 import { getData } from './api.js';
-import { showLoadAlert, debounce } from './utils.js';
+import { showLoadAlert } from './utils.js';
 
-const FILTER_DELAY = 500;
+
 
 document.addEventListener('DOMContentLoaded', () => {
   pageToNotActive();
@@ -21,13 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
   getData(
     (offers) => {
       createMarker(offers);
-      setFilter(debounce(() => createMarker(offers), FILTER_DELAY));
+      resetAdFormButton(offers, resetMap);
+      sendForm(offers, resetMap);
     },
     (message) => {
       showLoadAlert(message);
       disablefiltersForm();
     }
   );
-  sendForm(resetMap);
-  resetAdFormButton(resetMap);
 });
+

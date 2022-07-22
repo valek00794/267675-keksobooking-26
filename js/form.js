@@ -162,23 +162,26 @@ function unblockSubmitButton() {
   adFormSubmitButton.textContent = 'Опубликовать';
 }
 //Функция кнопки сброса
-function resetAdFormButton(resetMap) {
+function resetAdFormButton(offers, resetMap) {
   adForm.querySelector('.ad-form__reset').addEventListener('click', (evt) => {
     evt.preventDefault();
     resetAdForm();
-    resetMap();
+    resetMap(offers);
+    resetFilterForm();
   });
 }
 //Функция сброса форм и слайдера
 function resetAdForm() {
   adForm.reset();
-  filtersForm.reset();
   sliderElement.noUiSlider.updateOptions(sliderSetting);
   previewAvatarField.src = avatarImgDefault;
   previewOfferField.src = offerImgDefault;
 }
+function resetFilterForm() {
+  filtersForm.reset();
+}
 //Функция отправки формы
-function sendForm(resetMap) {
+function sendForm(offers, resetMap) {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -189,7 +192,8 @@ function sendForm(resetMap) {
           showSuccsessAlert();
           unblockSubmitButton();
           resetAdForm();
-          resetMap();
+          resetFilterForm();
+          resetMap(offers);
         },
         () => {
           showErrorAlert();
@@ -200,11 +204,7 @@ function sendForm(resetMap) {
     }
   });
 }
-function setFilter(cb) {
-  filtersForm.addEventListener('change', () => {
-    cb();
-  });
-}
+
 
 function previewImg (chooser, field) {
   const file = chooser.files[0];
@@ -231,5 +231,4 @@ export {
   disablefiltersForm,
   sendForm,
   resetAdFormButton,
-  setFilter,
 };

@@ -3,13 +3,11 @@ import {
   sendForm,
   resetAdFormButton,
   disablefiltersForm,
-  }
+}
   from './form.js';
 import { mapDraw } from './map.js';
 import { getData } from './api.js';
 import { showLoadAlert } from './utils.js';
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
   pageToNotActive();

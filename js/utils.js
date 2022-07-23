@@ -13,23 +13,23 @@ function getRandomNumber(min, max, decimal) {
 function getRandomElementsFromArray(features) {
   const maxLength = features.length;
   const lengthOfArray = getRandomNumber(1, maxLength);
-  const array = [];
-  for (let i = array.length; i < lengthOfArray; i++) {
+  const elements = [];
+  for (let i = elements.length; i < lengthOfArray; i++) {
     const indexOfElement = getRandomNumber(0, maxLength - 1);
     const element = features[indexOfElement];
-    if (!array.includes(element)) {
-      array.push(element);
+    if (!elements.includes(element)) {
+      elements.push(element);
     }
   }
-  return array;
+  return elements;
 }
 //Функция получения массива из ключей объекта
 function getArrayOfObjectKeys(types) {
-  const array = [];
+  const keys = [];
   for (const type in types) {
-    array.push(type);
+    keys.push(type);
   }
-  return array;
+  return keys;
 }
 //Функция блокировки или разблокировки всех элементов в форме
 function disOrEnableFormElements(form, directive) {

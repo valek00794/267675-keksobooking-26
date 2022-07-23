@@ -16,13 +16,13 @@ const TOKYO_CENTER_COORDINATES = {
 const MAP_ZOOM = 10;
 const MAIN_MARKER_SETTINGS = {
   iconUrl: './img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  proportions: [52, 52],
+  offsets: [26, 52],
 };
 const ANOTHER_MARKER_SETTINGS = {
   iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  proportions: [40, 40],
+  offsets: [20, 40],
 };
 
 const COUNT_VIEW_OBJECTS = 10;
@@ -43,14 +43,14 @@ function mapDraw() {
 
   const mainMarkerIcon = L.icon({
     iconUrl: MAIN_MARKER_SETTINGS.iconUrl,
-    iconSize: MAIN_MARKER_SETTINGS.iconSize,
-    iconAnchor: MAIN_MARKER_SETTINGS.iconAnchor,
+    iconSize: MAIN_MARKER_SETTINGS.proportions,
+    iconAnchor: MAIN_MARKER_SETTINGS.offsets,
   });
 
   const anotherMarkerIcon = L.icon({
     iconUrl: ANOTHER_MARKER_SETTINGS.iconUrl,
-    iconSize: ANOTHER_MARKER_SETTINGS.iconSize,
-    iconAnchor: ANOTHER_MARKER_SETTINGS.iconAnchor,
+    iconSize: ANOTHER_MARKER_SETTINGS.proportions,
+    iconAnchor: ANOTHER_MARKER_SETTINGS.offsets,
   });
   //Отрисовка главной метки
   const mainMarker = L.marker(

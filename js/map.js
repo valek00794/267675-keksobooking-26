@@ -1,5 +1,4 @@
 import { pageToActive } from './form.js';
-import { receivedOffers } from './api.js';
 import { getCard } from './create-card.js';
 import { debounce } from './utils.js';
 import {
@@ -10,7 +9,7 @@ import {
   compareOfferFeatures,
 }
   from './filter.js';
-  const filtersForm = document.querySelector('.map__filters');
+const filtersForm = document.querySelector('.map__filters');
 const TOKYO_CENTER_COORDINATES = {
   lat: 35.6550,
   lng: 139.75,
@@ -69,7 +68,9 @@ function mapDraw() {
     const coordinates = evt.target.getLatLng();
     addressField.value = `${coordinates.lat.toFixed(5)},${coordinates.lng.toFixed(5)}`;
   });
-  function setMarkers (point) {
+  //Отрисовка меток на новом слое
+  const markerGroup = L.layerGroup().addTo(map);
+  function setMarkers(point) {
     const anotherMarker = L.marker(
       {
         lat: point.location.lat,
@@ -86,31 +87,30 @@ function mapDraw() {
   }
   const FILTER_DELAY = 500;
 
-  //Отрисовка меток на новом слое
-  const markerGroup = L.layerGroup().addTo(map);
+
   function createMarker(offers) {
     markerGroup.clearLayers();
     offers
       .slice(0, COUNT_VIEW_OBJECTS)
-      .forEach((point) => { 
+      .forEach((point) => {
         setMarkers(point);
-  });
-  filtersForm.addEventListener('change', debounce(() => {
-    markerGroup.clearLayers();
-    offers
-      .slice()
-      .filter(compareOfferType)
-      .filter(compareOfferPrice)
-      .filter(compareOfferRooms)
-      .filter(compareOfferGuests)
-      .filter(compareOfferFeatures)
-      .slice(0, COUNT_VIEW_OBJECTS)
-      .forEach((point) => { 
-        setMarkers(point);
-  });
-  }), FILTER_DELAY)
+      });
+    filtersForm.addEventListener('change', debounce(() => {
+      markerGroup.clearLayers();
+      offers
+        .slice()
+        .filter(compareOfferType)
+        .filter(compareOfferPrice)
+        .filter(compareOfferRooms)
+        .filter(compareOfferGuests)
+        .filter(compareOfferFeatures)
+        .slice(0, COUNT_VIEW_OBJECTS)
+        .forEach((point) => {
+          setMarkers(point);
+        });
+    }), FILTER_DELAY);
   }
-  
+
   //Сброс карты в дефолтное состояние
   function resetMap(offers) {
     map
@@ -120,7 +120,7 @@ function mapDraw() {
       .setLatLng(TOKYO_CENTER_COORDINATES);
     document.querySelector('#address').value = `${TOKYO_CENTER_COORDINATES.lat.toFixed(5)},${TOKYO_CENTER_COORDINATES.lng.toFixed(5)}`;
     createMarker(offers);
-    }
+  }
   return { mapDraw, resetMap, createMarker };
 }
 
